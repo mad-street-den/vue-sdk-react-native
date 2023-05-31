@@ -141,7 +141,8 @@
     "useTabs": false
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.18.1"
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "uuidv4": "^5.0.1"
   },
   "react-native-builder-bob": {
     "source": "src",
