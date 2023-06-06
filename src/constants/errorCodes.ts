@@ -23,4 +23,12 @@ export const ERROR_CODES = {
     code: 'ERR006',
     message: 'Request timed out',
   },
+  ERR007: {
+    code: 'ERR007',
+    message: 'Base url is not specified',
+  },
+  ERR008: {
+    code: 'ERR008',
+    message: 'User id is not specified',
+  },
 };

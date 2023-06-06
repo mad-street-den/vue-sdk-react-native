@@ -2,5 +2,7 @@ export { ERROR_CODES } from './errorCodes';
 
 export const MSD_BASE_URL = 'MSD_BASE_URL';
 export const MSD_API_KEY = 'MSD_API_KEY';
-export const USER_ID = 'USER_ID';
+export const MSD_USER_ID = 'MSD_USER_ID';
 export const MAD_UUID = 'MAD_UUID';
+export const SDK_PLATFORM = 'mobile';
+export const TIMEOUT_DURATION = 10000;
