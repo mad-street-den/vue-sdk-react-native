@@ -31,6 +31,10 @@ export const getFromStorage = async (key: string) => {
   }
 };
 
+export const getFromCache = (key: string) => {
+  return cache[key];
+};
+
 export const generateAndSaveMadId = async () => {
   let madUuid = await getFromStorage(MAD_UUID);
   if (!madUuid) {
