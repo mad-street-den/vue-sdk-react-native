@@ -26,9 +26,9 @@ const init = async ({ token, baseUrl }: { token: string; baseUrl: string }) => {
   await generateAndSaveMadId();
 };
 
-const setUser = async ({ msdUserId }: { msdUserId: string }) => {
-  if (msdUserId?.length > 0) {
-    await saveToStorage(MSD_USER_ID, msdUserId);
+const setUser = async ({ userId }: { userId: string }) => {
+  if (userId?.length > 0) {
+    await saveToStorage(MSD_USER_ID, userId);
   } else {
     logger.error(
       `{ status: ${ERROR_CODES.ERR008.code}, message: ${ERROR_CODES.ERR008.message} }`
