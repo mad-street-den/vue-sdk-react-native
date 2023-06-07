@@ -30,7 +30,7 @@ export const apiCall = async ({
   method,
   params = {},
   headers = {},
-}: ApiCallParams): Promise<{ data?: object; errors?: any }> => {
+}: ApiCallParams): Promise<any> => {
   try {
     const isConnected = await isNetConnected();
     if (!isConnected) {
@@ -64,7 +64,7 @@ export const apiCall = async ({
       signal: controller.signal,
     });
     clearTimeout(id);
-    return response.json();
+    return response;
   } catch (error) {
     logger.error(`ERROR: ${error}`);
     return { errors: error };

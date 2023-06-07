@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ERROR_CODES } from '../constants';
+import { API_SUCCESS_STATUS, ERROR_CODES } from '../constants';
 import { apiCall, ApiMethods, IError } from '../api';
 import type {
   IGetRecommendationRequest,
@@ -30,9 +30,13 @@ export const useRecommendations = () => {
           method: ApiMethods.POST,
           params,
         });
+        const result = await response.json();
         setLoading(false);
-        setRecommendations(response?.data || null);
-        setError(response?.errors);
+        if (response?.status === API_SUCCESS_STATUS) {
+          setRecommendations(result?.data || null);
+        } else {
+          setError(result);
+        }
       } catch (err) {
         setLoading(false);
         setRecommendations(null);
