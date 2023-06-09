@@ -2,11 +2,7 @@ import type { IGetRecommendationRequest } from './recommendations/types.ts';
 
 declare module 'index' {
   export const useEvents: () => {
-    track: (
-      eventName: string,
-      pageName: string,
-      params?: object
-    ) => Promise<void>;
+    track: (eventName: string, params?: object) => Promise<void>;
   };
 
   export const useRecommendations: () => {

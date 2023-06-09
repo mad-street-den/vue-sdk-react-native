@@ -1,14 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { MAD_UUID } from '../constants';
 import { logger } from './logger';
+import { getItem, setItem } from '../native-bridge';
 
 const cache: Record<string, any> = {};
 
 export const saveToStorage = async (key: string, value: string) => {
   try {
     cache[key] = value;
-    const result = await AsyncStorage.setItem(key, value);
+    const result = await setItem(key, value);
     return result;
   } catch (err) {
     logger.error(`Error while save ${key} to storage, ${err}`);
@@ -21,7 +20,7 @@ export const getFromStorage = async (key: string) => {
     if (cache[key]) {
       return cache[key];
     } else {
-      const value = await AsyncStorage.getItem(key);
+      const value = await getItem(key);
       cache[key] = value;
       return value;
     }

@@ -7,7 +7,7 @@ import {
   TIMEOUT_DURATION,
   ERROR_CODES,
 } from '../constants';
-import { isNetConnected } from '../utils/network';
+import { isNetConnected } from '../native-bridge';
 import { getFromStorage } from '../utils/storage';
 import { logger } from '../utils/logger';
 import type { ApiCallParams, IError, RequestParam } from './types';
@@ -66,8 +66,13 @@ export const apiCall = async ({
     clearTimeout(id);
     return response;
   } catch (error) {
-    logger.error(`ERROR: ${error}`);
-    return { errors: error };
+    logger.error(
+      `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
+    );
+    return {
+      status: ERROR_CODES.ERR009.code,
+      message: ERROR_CODES.ERR009.message,
+    };
   }
 };
 

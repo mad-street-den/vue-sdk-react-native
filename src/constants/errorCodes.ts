@@ -31,4 +31,8 @@ export const ERROR_CODES = {
     code: 'ERR008',
     message: 'User id is not specified',
   },
+  ERR009: {
+    code: 'ERR009',
+    message: 'Abort Error',
+  },
 };
