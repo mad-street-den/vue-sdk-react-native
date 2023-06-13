@@ -12,6 +12,21 @@ export const TIMEOUT_DURATION = 10000;
 export const EVENT_MEDIUM = 'application';
 export const NETWORK_TEST_URL = 'https://www.google.com';
 export const API_SUCCESS_STATUS = 200;
+export const DISCOVER_EVENTS_MAP = 'DISCOVER_EVENTS_MAP';
+
+export enum TrackApiBasicParams {
+  user_id = 'user_id',
+  blox_uuid = 'blox_uuid',
+  platform = 'platform',
+  url = 'url',
+  medium = 'medium',
+  referrer = 'referrer',
+}
+
+export const getTrackApiBasicParams = () => {
+  return Object.keys(TrackApiBasicParams);
+};
+
 export const LINKING_ERROR =
   `The package 'react-native-msd' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +

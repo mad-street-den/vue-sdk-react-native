@@ -1,9 +1,6 @@
 import {
   MSD_BASE_URL,
-  MAD_UUID,
   MSD_API_KEY,
-  MSD_USER_ID,
-  SDK_PLATFORM,
   TIMEOUT_DURATION,
   ERROR_CODES,
 } from '../constants';
@@ -48,14 +45,9 @@ export const apiCall = async ({
       },
     };
 
-    const apiParams = {
-      ...params,
-      blox_uuid: await getFromStorage(MAD_UUID),
-      user_id: await getFromStorage(MSD_USER_ID),
-      platform: SDK_PLATFORM,
-    };
-
-    requestParam.body = JSON.stringify(apiParams);
+    if (Object.keys(params).length) {
+      requestParam.body = JSON.stringify(params);
+    }
     const baseUrl = await getFromStorage(MSD_BASE_URL);
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);

@@ -1,12 +1,19 @@
 import { useState } from 'react';
 
-import { API_SUCCESS_STATUS, ERROR_CODES } from '../constants';
+import {
+  API_SUCCESS_STATUS,
+  ERROR_CODES,
+  MAD_UUID,
+  MSD_USER_ID,
+  SDK_PLATFORM,
+} from '../constants';
 import { apiCall, ApiMethods, IError } from '../api';
 import type {
   IGetRecommendationRequest,
   IGetRecommendationBaseParams,
 } from './types';
 import { MSD_SEARCH_ENDPOINT } from '../constants/config';
+import { getFromStorage } from '../utils/storage';
 
 export const useRecommendations = () => {
   const [recommendations, setRecommendations] = useState<object | null>(null);
@@ -20,6 +27,9 @@ export const useRecommendations = () => {
     if (properties) {
       setLoading(true);
       const params = {
+        blox_uuid: await getFromStorage(MAD_UUID),
+        user_id: await getFromStorage(MSD_USER_ID),
+        platform: SDK_PLATFORM,
         ...baseParams,
         ...properties,
       };

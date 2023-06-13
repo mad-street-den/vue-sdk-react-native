@@ -1,3 +1,4 @@
+import { apiCall, ApiMethods } from './api';
 import {
   MSD_BASE_URL,
   ERROR_CODES,
@@ -5,8 +6,12 @@ import {
   MSD_USER_ID,
   MSD_IS_LOG_ENABLED,
 } from './constants';
+import { MSD_DISCOVER_EVENTS_ENDPOINT } from './constants/config';
+import { useDiscoverEvents } from './discover';
+import { EventData } from './discover/types';
 import { useEvents } from './events';
 import { useRecommendations } from './recommendations';
+import { constructDiscoverEventsMap } from './utils/discover';
 import { logger } from './utils/logger';
 import { generateAndSaveMadId, saveToStorage } from './utils/storage';
 
@@ -35,6 +40,18 @@ const init = async ({
   }
   await saveToStorage(MSD_IS_LOG_ENABLED, loggingEnabled.toString());
   await generateAndSaveMadId();
+  try {
+    const response = await apiCall({
+      url: MSD_DISCOVER_EVENTS_ENDPOINT,
+      method: ApiMethods.GET,
+    });
+    const result = await response.json();
+    if (result.data?.events) {
+      constructDiscoverEventsMap(result.data.events as EventData[]);
+    }
+  } catch (error) {
+    logger.error(`ERROR: ${error}`);
+  }
 };
 
 const setUser = async ({ userId }: { userId: string }) => {
@@ -47,4 +64,4 @@ const setUser = async ({ userId }: { userId: string }) => {
   }
 };
 
-export { init, setUser, useEvents, useRecommendations };
+export { init, setUser, useEvents, useRecommendations, useDiscoverEvents };

@@ -25,6 +25,11 @@ declare module 'index' {
     recommendations: object;
   };
 
+  export const useDiscoverEvents: () => {
+    discoverEvents: () => Promise<void>;
+    discoverEventsResponse: object;
+  };
+
   export const init: (options: {
     token: string;
     baseUrl: string;
