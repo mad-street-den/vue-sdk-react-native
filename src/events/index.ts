@@ -29,7 +29,7 @@ export const useEvents = () => {
       discoverEventsMap = JSON.parse(configMapResponse);
     }
     try {
-      if (!Object.keys(discoverEventsMap)?.length) {
+      if (!Object.keys(discoverEventsMap ?? {})?.length) {
         const response = await apiCall({
           url: MSD_DISCOVER_EVENTS_ENDPOINT,
           method: ApiMethods.GET,
@@ -48,7 +48,7 @@ export const useEvents = () => {
     }
     if (eventName?.length > 0) {
       try {
-        const configMapForEvent = discoverEventsMap[eventName];
+        const configMapForEvent = discoverEventsMap?.[eventName] ?? {};
         const bundleId = await getBundleId();
         const eventApiBasicParamsMap: Record<string, string | number> = {};
         const trackApiBasicParamValueMap: Record<
@@ -69,16 +69,17 @@ export const useEvents = () => {
           }
         });
 
+        if (!params || Object.keys(params).length === 0) {
+          logger.error(
+            `{ status: ${ERROR_CODES.ERR003.code}, message: ${ERROR_CODES.ERR003.message} }`
+          );
+          return;
+        }
         const eventParams = {
           event_name: eventName,
           ...eventApiBasicParamsMap,
           ...params,
         };
-        if (!params || Object.keys(params).length === 0) {
-          logger.error(
-            `{ status: ${ERROR_CODES.ERR003.code}, message: ${ERROR_CODES.ERR003.message} }`
-          );
-        }
         const response = await apiCall({
           url: MSD_TRACK_ENDPOINT,
           method: ApiMethods.POST,
