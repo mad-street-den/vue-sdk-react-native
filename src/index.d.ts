@@ -36,4 +36,5 @@ declare module 'index' {
   }) => Promise<void>;
 
   export const setUser: (options: { msdUserId: string }) => Promise<void>;
+  export const resetUser: () => Promise<void>;
 }

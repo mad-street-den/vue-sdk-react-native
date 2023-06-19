@@ -5,15 +5,18 @@ import {
   MSD_API_KEY,
   MSD_USER_ID,
   MSD_IS_LOG_ENABLED,
+  MSD_DISCOVER_EVENTS_ENDPOINT,
 } from './constants';
-import { MSD_DISCOVER_EVENTS_ENDPOINT } from './constants/config';
 import { useDiscoverEvents } from './discover';
 import { EventData } from './discover/types';
 import { useEvents } from './events';
 import { useRecommendations } from './recommendations';
-import { constructDiscoverEventsMap } from './utils/discover';
-import { logger } from './utils/logger';
-import { generateAndSaveMadId, saveToStorage } from './utils/storage';
+import {
+  constructDiscoverEventsMap,
+  logger,
+  generateAndSaveMadId,
+  saveToStorage,
+} from './utils';
 
 const init = async ({
   token,
@@ -45,12 +48,22 @@ const init = async ({
       url: MSD_DISCOVER_EVENTS_ENDPOINT,
       method: ApiMethods.GET,
     });
-    const result = await response.json();
-    if (result.data?.events) {
-      constructDiscoverEventsMap(result.data.events as EventData[]);
+    if (response) {
+      const result = await response.json();
+      if (result.data?.events) {
+        constructDiscoverEventsMap(result.data.events as EventData[]);
+      }
     }
-  } catch (error) {
-    logger.error(`ERROR: ${error}`);
+  } catch (error: any) {
+    if (error?.message === 'Aborted') {
+      logger.error(
+        `{ status: ${ERROR_CODES.ERR0013.code}, message: ${ERROR_CODES.ERR0013.message} }`
+      );
+    } else {
+      logger.error(
+        `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
+      );
+    }
   }
 };
 
@@ -64,4 +77,15 @@ const setUser = async ({ userId }: { userId: string }) => {
   }
 };
 
-export { init, setUser, useEvents, useRecommendations, useDiscoverEvents };
+const resetUser = async () => {
+  await saveToStorage(MSD_USER_ID, '');
+};
+
+export {
+  init,
+  setUser,
+  resetUser,
+  useEvents,
+  useRecommendations,
+  useDiscoverEvents,
+};

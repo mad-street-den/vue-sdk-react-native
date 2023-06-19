@@ -1,6 +1,11 @@
 import { Platform } from 'react-native';
 
 export { ERROR_CODES } from './errorCodes';
+export {
+  MSD_DISCOVER_EVENTS_ENDPOINT,
+  MSD_SEARCH_ENDPOINT,
+  MSD_TRACK_ENDPOINT,
+} from './config';
 
 export const MSD_BASE_URL = 'MSD_BASE_URL';
 export const MSD_API_KEY = 'MSD_API_KEY';

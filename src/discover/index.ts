@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
-import { MSD_DISCOVER_EVENTS_ENDPOINT } from '../constants/config';
 import { apiCall, ApiMethods, IError } from '../api';
-import { API_SUCCESS_STATUS, ERROR_CODES } from '../constants';
+import {
+  API_SUCCESS_STATUS,
+  ERROR_CODES,
+  MSD_DISCOVER_EVENTS_ENDPOINT,
+} from '../constants';
 import { IDiscoverEventsResponse } from './types';
 
 export const useDiscoverEvents = () => {
@@ -18,13 +21,15 @@ export const useDiscoverEvents = () => {
         url: MSD_DISCOVER_EVENTS_ENDPOINT,
         method: ApiMethods.GET,
       });
-      const result = await response.json();
-      setLoading(false);
-      if (response?.status === API_SUCCESS_STATUS) {
-        setDiscoverResponse(result?.data || null);
-      } else {
-        setError(result);
+      if (response) {
+        const result = await response.json();
+        if (response?.status === API_SUCCESS_STATUS) {
+          setDiscoverResponse(result?.data || null);
+        } else {
+          setError(result);
+        }
       }
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       setDiscoverResponse(null);

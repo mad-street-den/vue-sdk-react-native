@@ -1,7 +1,7 @@
 import { NativeModules } from 'react-native';
 
 import { LINKING_ERROR } from '../constants';
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 const { Msd } = NativeModules;
 

@@ -39,8 +39,6 @@ describe('apiCall', () => {
       method: ApiMethods.GET,
     });
 
-    const response = await result.json();
-
     expect(isNetConnected).toHaveBeenCalled();
     expect(getFromStorage).toHaveBeenNthCalledWith(1, MSD_API_KEY);
     expect(getFromStorage).toHaveBeenNthCalledWith(2, MSD_BASE_URL);
@@ -52,7 +50,7 @@ describe('apiCall', () => {
       },
       signal: expect.any(AbortSignal),
     });
-    expect(JSON.stringify(response)).toEqual(sampleResponse);
+    expect(JSON.parse(result.body)).toEqual(JSON.parse(sampleResponse));
   });
 
   it('should handle network connection error', async () => {
@@ -76,25 +74,24 @@ describe('apiCall', () => {
     expect(getFromStorage).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(logger.error).toHaveBeenCalledWith(
-      `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
+      `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
     );
-    expect(result).toEqual({
-      status: ERROR_CODES.ERR009.code,
-      message: ERROR_CODES.ERR009.message,
-    });
+    expect(result).toEqual(null);
   });
 
-  it('should handle API call error', async () => {
+  it('should handle API call error 500', async () => {
     const testEndPoint = 'invalid-endpoint';
-
+    const sampleResponse = JSON.stringify({ data: 'Server unavailable' });
     (
       isNetConnected as jest.MockedFunction<typeof isNetConnected>
     ).mockResolvedValue(true);
-    (
-      getFromStorage as jest.MockedFunction<typeof getFromStorage>
-    ).mockResolvedValue(apiKey);
+    (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
+      .mockResolvedValue(baseUrl)
+      .mockResolvedValue(apiKey);
 
-    fetchMock.mockReject(new Error('API request failed'));
+    fetchMock.mockResponseOnce(sampleResponse, {
+      status: 500,
+    });
 
     const result = await apiCall({
       url: testEndPoint,
@@ -104,7 +101,8 @@ describe('apiCall', () => {
     });
 
     expect(isNetConnected).toHaveBeenCalled();
-    expect(getFromStorage).toHaveBeenCalledWith(MSD_API_KEY);
+    expect(getFromStorage).toHaveBeenNthCalledWith(1, MSD_API_KEY);
+    expect(getFromStorage).toHaveBeenNthCalledWith(2, MSD_BASE_URL);
     expect(fetchMock).toHaveBeenCalledWith(`${baseUrl}/${testEndPoint}`, {
       method: 'GET',
       headers: {
@@ -114,11 +112,8 @@ describe('apiCall', () => {
       signal: expect.any(AbortSignal),
     });
     expect(logger.error).toHaveBeenCalledWith(
-      `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
+      `{ status: ${ERROR_CODES.ERR0012.code}, message: ${ERROR_CODES.ERR0012.message} }`
     );
-    expect(result).toEqual({
-      status: ERROR_CODES.ERR009.code,
-      message: ERROR_CODES.ERR009.message,
-    });
+    expect(result).toEqual(null);
   });
 });

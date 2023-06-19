@@ -33,6 +33,23 @@ export const ERROR_CODES = {
   },
   ERR009: {
     code: 'ERR009',
+    message: 'Response success but empty',
+  },
+  ERR0010: {
+    code: 'ERR0010',
+    message: 'Unable to decode json from server',
+  },
+  ERR0011: {
+    code: 'ERR00011',
+    message: 'Unknown Error',
+  },
+  ERR0012: {
+    code: 'ERR0012',
+    message:
+      'Our server is currently experiencing issues. Please try again later.',
+  },
+  ERR0013: {
+    code: 'ERR0013',
     message: 'Abort Error',
   },
 };

@@ -5,8 +5,7 @@ import {
   ERROR_CODES,
 } from '../constants';
 import { isNetConnected } from '../native-bridge';
-import { getFromStorage } from '../utils/storage';
-import { logger } from '../utils/logger';
+import { getFromStorage, logger } from '../utils';
 import type { ApiCallParams, IError, RequestParam } from './types';
 
 enum ApiMethods {
@@ -34,37 +33,65 @@ export const apiCall = async ({
       throw new Error(
         `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
       );
-    }
+    } else {
+      const defaultHeaders = await getDefaultHeaders();
+      const requestParam: RequestParam = {
+        method,
+        headers: {
+          ...defaultHeaders,
+          ...headers,
+        },
+      };
 
-    const defaultHeaders = await getDefaultHeaders();
-    const requestParam: RequestParam = {
-      method,
-      headers: {
-        ...defaultHeaders,
-        ...headers,
-      },
-    };
-
-    if (Object.keys(params).length) {
-      requestParam.body = JSON.stringify(params);
+      if (Object.keys(params).length) {
+        requestParam.body = JSON.stringify(params);
+      }
+      const baseUrl = await getFromStorage(MSD_BASE_URL);
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
+      const response = await fetch(`${baseUrl}/${url}`, {
+        ...requestParam,
+        signal: controller.signal,
+      });
+      clearTimeout(id);
+      try {
+        if (response.status >= 500 && response.status <= 599) {
+          logger.error(
+            `{ status: ${ERROR_CODES.ERR0012.code}, message: ${ERROR_CODES.ERR0012.message} }`
+          );
+          return null;
+        }
+        const result = await response.json();
+        if (response.status === 200) {
+          if (!result || !result.data) {
+            logger.error(
+              `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
+            );
+            return null;
+          }
+          return response;
+        } else {
+          if (!!result && typeof result === 'object') {
+            return response;
+          } else {
+            logger.error(
+              `{ status: ${ERROR_CODES.ERR0011.code}, message: ${ERROR_CODES.ERR0011.message} }`
+            );
+            return null;
+          }
+        }
+      } catch (err) {
+        logger.error(
+          `{ status: ${ERROR_CODES.ERR0010.code}, message: ${ERROR_CODES.ERR0010.message} }`
+        );
+        return null;
+      }
     }
-    const baseUrl = await getFromStorage(MSD_BASE_URL);
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
-    const response = await fetch(`${baseUrl}/${url}`, {
-      ...requestParam,
-      signal: controller.signal,
-    });
-    clearTimeout(id);
-    return response;
   } catch (error) {
     logger.error(
-      `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
+      `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
     );
-    return {
-      status: ERROR_CODES.ERR009.code,
-      message: ERROR_CODES.ERR009.message,
-    };
+    return null;
   }
 };
 

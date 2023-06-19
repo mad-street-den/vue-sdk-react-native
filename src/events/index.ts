@@ -10,36 +10,34 @@ import {
   DISCOVER_EVENTS_MAP,
   TrackApiBasicParams,
   API_SUCCESS_STATUS,
-} from '../constants';
-import { logger } from '../utils/logger';
-import {
   MSD_DISCOVER_EVENTS_ENDPOINT,
   MSD_TRACK_ENDPOINT,
-} from '../constants/config';
+} from '../constants';
+import { logger, getFromStorage, constructDiscoverEventsMap } from '../utils';
 import { ApiMethods, apiCall } from '../api';
-import { getFromStorage } from '../utils/storage';
-import { constructDiscoverEventsMap } from '../utils/discover';
 import { getBundleId } from '../native-bridge';
 
 export const useEvents = () => {
   const track = async (eventName: string, params: object = {}) => {
     let configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
-    let discoverEventsMap;
+    let discoverEventsMap: Record<string, any> = {};
     if (configMapResponse) {
       discoverEventsMap = JSON.parse(configMapResponse);
     }
     try {
-      if (!Object.keys(discoverEventsMap ?? {})?.length) {
+      if (!Object.keys(discoverEventsMap)?.length) {
         const response = await apiCall({
           url: MSD_DISCOVER_EVENTS_ENDPOINT,
           method: ApiMethods.GET,
         });
-        const result = await response.json();
-        if (result.data?.events) {
-          await constructDiscoverEventsMap(result.data.events);
-          configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
-          if (configMapResponse) {
-            discoverEventsMap = JSON.parse(configMapResponse);
+        if (response) {
+          const result = await response.json();
+          if (result.data?.events) {
+            await constructDiscoverEventsMap(result.data.events);
+            configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
+            if (configMapResponse) {
+              discoverEventsMap = JSON.parse(configMapResponse);
+            }
           }
         }
       }

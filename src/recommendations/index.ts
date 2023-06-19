@@ -6,17 +6,19 @@ import {
   MAD_UUID,
   MSD_USER_ID,
   SDK_PLATFORM,
+  MSD_SEARCH_ENDPOINT,
 } from '../constants';
 import { apiCall, ApiMethods, IError } from '../api';
 import type {
   IGetRecommendationRequest,
   IGetRecommendationBaseParams,
 } from './types';
-import { MSD_SEARCH_ENDPOINT } from '../constants/config';
-import { getFromStorage } from '../utils/storage';
+import { getFromStorage } from '../utils';
 
 export const useRecommendations = () => {
-  const [recommendations, setRecommendations] = useState<object | null>(null);
+  const [recommendations, setRecommendations] = useState<Array<object> | null>(
+    null
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<IError | null>(null);
 
@@ -40,13 +42,15 @@ export const useRecommendations = () => {
           method: ApiMethods.POST,
           params,
         });
-        const result = await response.json();
-        setLoading(false);
-        if (response?.status === API_SUCCESS_STATUS) {
-          setRecommendations(result?.data || null);
-        } else {
-          setError(result);
+        if (response) {
+          const result = await response.json();
+          if (response?.status === API_SUCCESS_STATUS) {
+            setRecommendations(result?.data || null);
+          } else {
+            setError(result);
+          }
         }
+        setLoading(false);
       } catch (err) {
         setLoading(false);
         setRecommendations(null);
