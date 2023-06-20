@@ -33,7 +33,6 @@ export const useRecommendations = () => {
         blox_uuid: await getFromStorage(MAD_UUID),
         user_id: await getFromStorage(MSD_USER_ID),
         platform: SDK_PLATFORM,
-        timestamp: Date.now(),
         ...baseParams,
         ...properties,
       };

@@ -56,7 +56,6 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         module_name: 'module_1',
         catalogs: {},
-        timestamp: expect.any(Number),
       },
     });
 
@@ -148,7 +147,6 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         strategy_name: 'strategy_1',
         catalogs: {},
-        timestamp: expect.any(Number),
       },
     });
 
@@ -242,7 +240,6 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         page_name: 'page_1',
         catalogs: {},
-        timestamp: expect.any(Number),
       },
     });
 
