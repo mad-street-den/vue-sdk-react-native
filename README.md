@@ -94,7 +94,8 @@ const requestParamsForStrategy = {
     param2: 'value2'
 };
 const strategyReference = 'sample module name';
-getRecommendationByStrategy(strategyReference, requestParamsForStrategy);
+const correlationId = 'sample correlation-id';
+getRecommendationByStrategy(strategyReference, requestParamsForStrategy, correlationId);
 
 // recommendation by module method usage 
 const requestParamsForModule = {
@@ -102,7 +103,8 @@ const requestParamsForModule = {
     param2: 'value2'
 };
 const moduleReference = 'sample strategy name';
-getRecommendationByModule(moduleReference, requestParamsForModule);
+const correlationId = 'sample correlation-id';
+getRecommendationByModule(moduleReference, requestParamsForModule, correlationId);
 
 // recommendation by page method usage 
 const requestParamsForPage = {
@@ -110,7 +112,8 @@ const requestParamsForPage = {
     param2: 'value2'
 };
 const pageReference = 'sample page name';
-getRecommendationByModule(pageReference, requestParamsForPage);
+const correlationId = 'sample correlation-id';
+getRecommendationByModule(pageReference, requestParamsForPage, correlationId);
    
 ```
 ### 5. Discover method
@@ -173,7 +176,8 @@ function App(): JSX.Element {
     const requestParams = {
       // Your request params
     };
-    getRecommendationByStrategy(requestType, requestParams);
+    const correlationId = 'sample correlation-id';
+    getRecommendationByStrategy(requestType, requestParams, correlationId);
   };
 
   const {track} = useEvents();
@@ -183,7 +187,8 @@ function App(): JSX.Element {
     const requestParams = {
       // Your request params
     };
-    track(eventName, requestParams);
+    const correlationId = 'sample correlation-id';
+    track(eventName, requestParams, correlationId);
   };
 
   const renderRecommendations = () => {

@@ -24,7 +24,8 @@ export const useRecommendations = () => {
 
   const getRecommendation = async (
     baseParams: IGetRecommendationBaseParams,
-    properties: IGetRecommendationRequest
+    properties: IGetRecommendationRequest,
+    correlationId: string | null
   ) => {
     if (properties) {
       setLoading(true);
@@ -32,6 +33,7 @@ export const useRecommendations = () => {
         blox_uuid: await getFromStorage(MAD_UUID),
         user_id: await getFromStorage(MSD_USER_ID),
         platform: SDK_PLATFORM,
+        timestamp: Date.now(),
         ...baseParams,
         ...properties,
       };
@@ -41,6 +43,9 @@ export const useRecommendations = () => {
           url: MSD_SEARCH_ENDPOINT,
           method: ApiMethods.POST,
           params,
+          ...(correlationId
+            ? { headers: { 'x-correlation-id': correlationId } }
+            : {}),
         });
         if (response) {
           const result = await response.json();
@@ -78,49 +83,57 @@ export const useRecommendations = () => {
 
   const getRecommendationByStrategy = async (
     strategyReference: string,
-    properties: IGetRecommendationRequest
+    properties: IGetRecommendationRequest,
+    correlationId: string | null
   ) => {
     getRecommendation(
       {
         strategy_name: strategyReference,
       },
-      properties
+      properties,
+      correlationId
     );
   };
 
   const getRecommendationByModule = async (
     moduleReference: string,
-    properties: IGetRecommendationRequest
+    properties: IGetRecommendationRequest,
+    correlationId: string | null
   ) => {
     getRecommendation(
       {
         module_name: moduleReference,
       },
-      properties
+      properties,
+      correlationId
     );
   };
 
   const getRecommendationByPage = async (
     pageReference: string,
-    properties: IGetRecommendationRequest
+    properties: IGetRecommendationRequest,
+    correlationId: string | null
   ) => {
     getRecommendation(
       {
         page_name: pageReference,
       },
-      properties
+      properties,
+      correlationId
     );
   };
 
   const getRecommendationByText = async (
     textReference: string,
-    properties: IGetRecommendationRequest
+    properties: IGetRecommendationRequest,
+    correlationId: string | null
   ) => {
     getRecommendation(
       {
         text_name: textReference,
       },
-      properties
+      properties,
+      correlationId
     );
   };
 

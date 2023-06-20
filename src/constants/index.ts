@@ -26,6 +26,7 @@ export enum TrackApiBasicParams {
   url = 'url',
   medium = 'medium',
   referrer = 'referrer',
+  timestamp = 'timestamp',
 }
 
 export const getTrackApiBasicParams = () => {

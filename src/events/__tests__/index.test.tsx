@@ -25,7 +25,7 @@ describe('useEvents', () => {
 
     const { result } = renderHook(() => useEvents());
     await act(async () => {
-      await result.current.track(eventName, params);
+      await result.current.track(eventName, params, '');
     });
   });
 
@@ -33,7 +33,7 @@ describe('useEvents', () => {
     const { result } = renderHook(() => useEvents());
 
     await act(async () => {
-      await result.current.track('');
+      await result.current.track('', {}, '');
     });
 
     expect(logger.error).toHaveBeenCalledWith(
@@ -46,7 +46,7 @@ describe('useEvents', () => {
 
     const { result } = renderHook(() => useEvents());
     await act(async () => {
-      await result.current.track(eventName);
+      await result.current.track(eventName, {}, '');
     });
 
     expect(logger.error).toHaveBeenCalledWith(
@@ -64,7 +64,7 @@ describe('useEvents', () => {
 
     const { result } = renderHook(() => useEvents());
     await act(async () => {
-      await result.current.track(eventName, params);
+      await result.current.track(eventName, params, '');
     });
 
     expect(logger.error).toHaveBeenCalledWith('ERROR: Discover events error');

@@ -33,9 +33,13 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      result.current.getRecommendationByModule('module_1', {
-        catalogs: {},
-      });
+      result.current.getRecommendationByModule(
+        'module_1',
+        {
+          catalogs: {},
+        },
+        ''
+      );
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);
@@ -52,6 +56,7 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         module_name: 'module_1',
         catalogs: {},
+        timestamp: expect.any(Number),
       },
     });
 
@@ -84,7 +89,11 @@ describe('useRecommendations', () => {
     expect(result.current.recommendations.error).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByModule('module_1', { catalogs: {} });
+      result.current.getRecommendationByModule(
+        'module_1',
+        { catalogs: {} },
+        ''
+      );
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);
@@ -116,9 +125,13 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      result.current.getRecommendationByStrategy('strategy_1', {
-        catalogs: {},
-      });
+      result.current.getRecommendationByStrategy(
+        'strategy_1',
+        {
+          catalogs: {},
+        },
+        ''
+      );
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);
@@ -135,6 +148,7 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         strategy_name: 'strategy_1',
         catalogs: {},
+        timestamp: expect.any(Number),
       },
     });
 
@@ -167,9 +181,13 @@ describe('useRecommendations', () => {
     expect(result.current.recommendations.error).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByStrategy('strategy_1', {
-        catalogs: {},
-      });
+      result.current.getRecommendationByStrategy(
+        'strategy_1',
+        {
+          catalogs: {},
+        },
+        ''
+      );
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);
@@ -201,9 +219,13 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      result.current.getRecommendationByPage('page_1', {
-        catalogs: {},
-      });
+      result.current.getRecommendationByPage(
+        'page_1',
+        {
+          catalogs: {},
+        },
+        ''
+      );
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);
@@ -220,6 +242,7 @@ describe('useRecommendations', () => {
         platform: 'mobile',
         page_name: 'page_1',
         catalogs: {},
+        timestamp: expect.any(Number),
       },
     });
 
@@ -252,7 +275,7 @@ describe('useRecommendations', () => {
     expect(result.current.recommendations.error).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByPage('page_1', { catalogs: {} });
+      result.current.getRecommendationByPage('page_1', { catalogs: {} }, '');
     });
 
     expect(result.current.recommendations.isLoading).toBe(true);

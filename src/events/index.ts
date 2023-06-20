@@ -18,7 +18,11 @@ import { ApiMethods, apiCall } from '../api';
 import { getBundleId } from '../native-bridge';
 
 export const useEvents = () => {
-  const track = async (eventName: string, params: object = {}) => {
+  const track = async (
+    eventName: string,
+    params: object = {},
+    correlationId: string | null
+  ) => {
     let configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
     let discoverEventsMap: Record<string, any> = {};
     if (configMapResponse) {
@@ -59,6 +63,7 @@ export const useEvents = () => {
           url: bundleId,
           medium: EVENT_MEDIUM,
           referrer: Platform.OS,
+          timestamp: Date.now(),
         };
         getTrackApiBasicParams().forEach((key) => {
           const value = trackApiBasicParamValueMap[key as TrackApiBasicParams];
@@ -75,13 +80,16 @@ export const useEvents = () => {
         }
         const eventParams = {
           event_name: eventName,
-          ...eventApiBasicParamsMap,
           ...params,
+          ...eventApiBasicParamsMap,
         };
         const response = await apiCall({
           url: MSD_TRACK_ENDPOINT,
           method: ApiMethods.POST,
           params: eventParams,
+          ...(correlationId
+            ? { headers: { 'x-correlation-id': correlationId } }
+            : {}),
         });
         if (response?.status === API_SUCCESS_STATUS) {
           const result = await response?.json();
