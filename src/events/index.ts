@@ -21,7 +21,7 @@ export const useEvents = () => {
   const track = async (
     eventName: string,
     params: object = {},
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     let configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
     let discoverEventsMap: Record<string, any> = {};
@@ -46,7 +46,9 @@ export const useEvents = () => {
         }
       }
     } catch (error) {
-      logger.error(`ERROR: ${error}`);
+      logger.error(
+        `{ status: ${ERROR_CODES.ERR0010.code}, message: ${ERROR_CODES.ERR0010.message} }`
+      );
     }
     if (eventName?.length > 0) {
       try {

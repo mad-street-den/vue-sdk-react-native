@@ -25,7 +25,7 @@ export const useRecommendations = () => {
   const getRecommendation = async (
     baseParams: IGetRecommendationBaseParams,
     properties: IGetRecommendationRequest,
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     if (properties) {
       setLoading(true);
@@ -61,8 +61,8 @@ export const useRecommendations = () => {
         setError({
           errors: [
             {
-              code: ERROR_CODES.ERR006.code,
-              message: ERROR_CODES.ERR006.message,
+              code: ERROR_CODES.ERR0011.code,
+              message: ERROR_CODES.ERR0011.message,
             },
           ],
         });
@@ -83,7 +83,7 @@ export const useRecommendations = () => {
   const getRecommendationByStrategy = async (
     strategyReference: string,
     properties: IGetRecommendationRequest,
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     getRecommendation(
       {
@@ -97,7 +97,7 @@ export const useRecommendations = () => {
   const getRecommendationByModule = async (
     moduleReference: string,
     properties: IGetRecommendationRequest,
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     getRecommendation(
       {
@@ -111,7 +111,7 @@ export const useRecommendations = () => {
   const getRecommendationByPage = async (
     pageReference: string,
     properties: IGetRecommendationRequest,
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     getRecommendation(
       {
@@ -125,7 +125,7 @@ export const useRecommendations = () => {
   const getRecommendationByText = async (
     textReference: string,
     properties: IGetRecommendationRequest,
-    correlationId: string | null
+    correlationId?: string | null
   ) => {
     getRecommendation(
       {

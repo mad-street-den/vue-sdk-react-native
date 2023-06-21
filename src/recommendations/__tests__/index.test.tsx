@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { useRecommendations } from '../index';
 import { apiCall } from '../../api';
 import { getFromStorage } from '../../utils/storage';
-import { MSD_SEARCH_ENDPOINT } from '../../constants/config';
+import { MSD_SEARCH_ENDPOINT, ERROR_CODES } from '../../constants';
 
 jest.mock('../../api');
 jest.mock('../../utils/storage');
@@ -70,8 +70,8 @@ describe('useRecommendations', () => {
     const mockError = {
       errors: [
         {
-          code: 'ERR006',
-          message: 'Request timed out',
+          code: ERROR_CODES.ERR0011.code,
+          message: ERROR_CODES.ERR0011.message,
         },
       ],
     };
@@ -161,8 +161,8 @@ describe('useRecommendations', () => {
     const mockError = {
       errors: [
         {
-          code: 'ERR006',
-          message: 'Request timed out',
+          code: ERROR_CODES.ERR0011.code,
+          message: ERROR_CODES.ERR0011.message,
         },
       ],
     };
@@ -254,8 +254,8 @@ describe('useRecommendations', () => {
     const mockError = {
       errors: [
         {
-          code: 'ERR006',
-          message: 'Request timed out',
+          code: ERROR_CODES.ERR0011.code,
+          message: ERROR_CODES.ERR0011.message,
         },
       ],
     };

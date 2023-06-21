@@ -112,6 +112,7 @@ The SDK automatically includes several properties when tracking events, eliminat
 
 <!-- TABLE_GENERATE_END -->
 
+
 ## 5. Get Recommendations
 
 The getRecommendation function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
@@ -143,8 +144,8 @@ getRecommendationByModule(pageReference, requestParamsForPage, correlationId);
 
 ```js
 const requestParamsForModule = {
-param1: 'VALUE_1',
-param2: 'VALUE_2'
+  param1: 'VALUE_1',
+  param2: 'VALUE_2'
 };
 const moduleReference = 'YOUR_MODULE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
@@ -155,8 +156,8 @@ getRecommendationByModule(moduleReference, requestParamsForModule, correlationId
 #### 3. Get Recommendations by Strategy
 ```js
 const requestParamsForStrategy = {
-param1: 'VALUE_1',
-param2: 'VALUE_2'
+  param1: 'VALUE_1',
+  param2: 'VALUE_2'
 };
 const strategyReference = 'YOUR_STRATEGY_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
@@ -188,7 +189,7 @@ const userId = 'YOUR_USER_ID';
 setUser({ userId })
 ```
 
-##7. Reset User Profile
+## 7. Reset User Profile
 
 The resetUseR function in the SDK allows you to clear the user information and reset the SDK state when the user logs out of your application. This ensures that any user-specific data and tracking are cleared and no longer associated with the user.
 
@@ -206,73 +207,73 @@ Here's a runnable code example that covers everything in this quickstart guide.
 
 import React, { useEffect } from 'react';
 import {
-Button,
-StyleSheet,
-Text,
-View,
-Image,
-ScrollView,
-SafeAreaView,
-ActivityIndicator,
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import { init, setUser, resetUser, useEvents, useRecommendations, useDiscoverEvents } from 'react-native-msd';
 
 function App(): JSX.Element {
 useEffect(()=>{
-const token = 'YOUR_TOKEN';
-const baseUrl = 'GIVEN_MSD_BASE_URL';
-init({ token, baseUrl, loggingEnabled: false });
-setUser({ userId: 'YOUR_USER_ID' });
+  const token = 'YOUR_TOKEN';
+  const baseUrl = 'GIVEN_MSD_BASE_URL';
+  init({ token, baseUrl, loggingEnabled: false });
+  setUser({ userId: 'YOUR_USER_ID' });
 },[])
 
 const { recommendations, getRecommendationByStrategy } = useRecommendations();
 
 
 const getRecommendations = () => {
-const strategyName = 'YOUR_STRATEGY_NAME';
-const requestParams = {
-// Your request params
-  YOUR_KEY: 'YOUR_VALUE'
-};
-const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationByStrategy(requestType, requestParams, correlationId);
+  const strategyName = 'YOUR_STRATEGY_NAME';
+  const requestParams = {
+  // Your request params
+    YOUR_KEY: 'YOUR_VALUE'
+  };
+  const correlationId = 'YOUR_CORRELATION_ID';
+  getRecommendationByStrategy(requestType, requestParams, correlationId);
 };
 
 const { track } = useEvents();
 
 const trackEvent = () => {
-const eventName = 'YOUR_CUSTOM_EVENT_NAME';
-const requestParams = {
-// Your request params
-  YOUR_KEY: 'YOUR_VALUE'
-};
-const correlationId = 'YOUR_CORRELATION_ID';
-track(eventName, requestParams, correlationId);
+  const eventName = 'YOUR_CUSTOM_EVENT_NAME';
+  const requestParams = {
+  // Your request params
+    YOUR_KEY: 'YOUR_VALUE'
+  };
+  const correlationId = 'YOUR_CORRELATION_ID';
+  track(eventName, requestParams, correlationId);
 };
 
 
 const renderRecommendations = () => {
 return (
-<ScrollView horizontal>
-{recommendations?.data?.length > 0 &&
-recommendations?.data[0].data?.map((item: any) => (
-<View key={item?.title} style={styles.productCard}>
-<View>
-<Image
-style={styles.productImage}
-source={{ uri: item.image_link }}
-/>
-</View>
-<View>
-<Text numberOfLines={2} style={styles.productCardTitle}>
-{item?.title}
-</Text>
-<Text style={styles.productPrice}>{`${item?.price}$`}</Text>
-</View>
-</View>
-))}
-</ScrollView>
-);
+  <ScrollView horizontal>
+    {recommendations?.data?.length > 0 &&
+    recommendations?.data[0].data?.map((item: any) => (
+      <View key={item?.title} style={styles.productCard}>
+        <View>
+          <Image
+          style={styles.productImage}
+          source={{ uri: item.image_link }}
+          />
+        </View>
+        <View>
+          <Text numberOfLines={2} style={styles.productCardTitle}>
+          {item?.title}
+          </Text>
+          <Text style={styles.productPrice}>{`${item?.price}$`}</Text>
+        </View>
+      </View>
+    ))}
+  </ScrollView>
+  );
 };
 
 
@@ -307,58 +308,58 @@ title="Get Recommendations"
 
 
 const styles = StyleSheet.create({
-backgroundStyle: {
-flex: 1,
-}
-sectionContainer: {
-marginTop: 32,
-paddingHorizontal: 24,
-},
-sectionTitle: {
-fontSize: 24,
-fontWeight: '600',
-},
-sectionDescription: {
-marginTop: 8,
-fontSize: 18,
-fontWeight: '400',
-},
-highlight: {
-fontWeight: '700',
-},
-productCard: {
-padding: 10,
-margin: 5,
-backgroundColor: '#D2E9E9',
-borderRadius: 5,
-width: 170,
-},
-productCardTitle: {
-color: '#545B77',
-fontWeight: '700',
-paddingTop: 8,
-},
-productPrice: {
-color: '#545B77',
-fontWeight: '400',
-paddingTop: 4,
-},
-productImage: {
-width: 150,
-height: 200,
-borderRadius: 3,
-},
-loaderContainer: {
-position: 'absolute',
-top: 0,
-left: 0,
-right: 0,
-bottom: 0,
-zIndex: 2,
-justifyContent: 'center',
-alignItems: 'center',
-backgroundColor: 'rgba(0,0,0,0.4)',
-},
+  backgroundStyle: {
+    flex: 1,
+  }
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+  productCard: {
+    padding: 10,
+    margin: 5,
+    backgroundColor: '#D2E9E9',
+    borderRadius: 5,
+    width: 170,
+  },
+  productCardTitle: {
+    color: '#545B77',
+    fontWeight: '700',
+    paddingTop: 8,
+  },
+  productPrice: {
+    color: '#545B77',
+    fontWeight: '400',
+    paddingTop: 4,
+  },
+  productImage: {
+    width: 150,
+    height: 200,
+    borderRadius: 3,
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
 });
 
 export default App;

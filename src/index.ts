@@ -16,6 +16,7 @@ import {
   logger,
   generateAndSaveMadId,
   saveToStorage,
+  validateUrl,
 } from './utils';
 
 const init = async ({
@@ -25,7 +26,7 @@ const init = async ({
 }: {
   token: string;
   baseUrl: string;
-  loggingEnabled: boolean;
+  loggingEnabled?: boolean;
 }) => {
   if (token?.length > 0) {
     await saveToStorage(MSD_API_KEY, token);
@@ -34,7 +35,7 @@ const init = async ({
       `{ status: ${ERROR_CODES.ERR001.code}, message: ${ERROR_CODES.ERR001.message} }`
     );
   }
-  if (baseUrl?.length > 0) {
+  if (baseUrl?.length > 0 && validateUrl(baseUrl)) {
     await saveToStorage(MSD_BASE_URL, baseUrl);
   } else {
     logger.error(
@@ -49,21 +50,19 @@ const init = async ({
       method: ApiMethods.GET,
     });
     if (response) {
-      const result = await response.json();
-      if (result.data?.events) {
-        constructDiscoverEventsMap(result.data.events as EventData[]);
+      if (response?.status === 200) {
+        const result = await response.json();
+        if (result.data?.events) {
+          constructDiscoverEventsMap(result.data.events as EventData[]);
+        }
+      } else {
+        logger.error(JSON.stringify(response));
       }
     }
   } catch (error: any) {
-    if (error?.message === 'Aborted') {
-      logger.error(
-        `{ status: ${ERROR_CODES.ERR0013.code}, message: ${ERROR_CODES.ERR0013.message} }`
-      );
-    } else {
-      logger.error(
-        `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
-      );
-    }
+    logger.error(
+      `{ status: ${ERROR_CODES.ERR0011.code}, message: ${ERROR_CODES.ERR0011.message} }`
+    );
   }
 };
 

@@ -25,7 +25,7 @@ export const ERROR_CODES = {
   },
   ERR007: {
     code: 'ERR007',
-    message: 'Base url is not specified',
+    message: 'Base url format is wrong',
   },
   ERR008: {
     code: 'ERR008',
@@ -47,9 +47,5 @@ export const ERROR_CODES = {
     code: 'ERR0012',
     message:
       'Our server is currently experiencing issues. Please try again later.',
-  },
-  ERR0013: {
-    code: 'ERR0013',
-    message: 'Abort Error',
   },
 };

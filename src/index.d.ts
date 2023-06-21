@@ -2,25 +2,33 @@ import type { IGetRecommendationRequest } from './recommendations/types.ts';
 
 declare module 'index' {
   export const useEvents: () => {
-    track: (eventName: string, params?: object) => Promise<void>;
+    track: (
+      eventName: string,
+      params?: object,
+      correlationId?: string | null
+    ) => Promise<void>;
   };
 
   export const useRecommendations: () => {
     getRecommendationByStrategy: (
       strategyReference: string,
-      properties: IGetRecommendationRequest
+      properties: IGetRecommendationRequest,
+      correlationId?: string | null
     ) => Promise<void>;
     getRecommendationByModule: (
       moduleReference: string,
-      properties: IGetRecommendationRequest
+      properties: IGetRecommendationRequest,
+      correlationId?: string | null
     ) => Promise<void>;
     getRecommendationByPage: (
       pageReference: string,
-      properties: IGetRecommendationRequest
+      properties: IGetRecommendationRequest,
+      correlationId?: string | null
     ) => Promise<void>;
     getRecommendationByText: (
       textReference: string,
-      properties: IGetRecommendationRequest
+      properties: IGetRecommendationRequest,
+      correlationId?: string | null
     ) => Promise<void>;
     recommendations: object;
   };
@@ -33,6 +41,7 @@ declare module 'index' {
   export const init: (options: {
     token: string;
     baseUrl: string;
+    loggingEnabled?: boolean;
   }) => Promise<void>;
 
   export const setUser: (options: { msdUserId: string }) => Promise<void>;

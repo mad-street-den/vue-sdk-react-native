@@ -87,10 +87,16 @@ export const apiCall = async ({
         return null;
       }
     }
-  } catch (error) {
-    logger.error(
-      `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
-    );
+  } catch (error: any) {
+    if (error.message === 'Aborted') {
+      logger.error(
+        `{ status: ${ERROR_CODES.ERR006.code}, message: ${ERROR_CODES.ERR006.message} }`
+      );
+    } else {
+      logger.error(
+        `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
+      );
+    }
     return null;
   }
 };

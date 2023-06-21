@@ -6,3 +6,4 @@ export {
   generateAndSaveMadId,
 } from './storage';
 export { logger } from './logger';
+export { validateUrl } from './checks';

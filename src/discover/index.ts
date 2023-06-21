@@ -36,8 +36,8 @@ export const useDiscoverEvents = () => {
       setError({
         errors: [
           {
-            code: ERROR_CODES.ERR006.code,
-            message: ERROR_CODES.ERR006.message,
+            code: ERROR_CODES.ERR0011.code,
+            message: ERROR_CODES.ERR0011.message,
           },
         ],
       });
