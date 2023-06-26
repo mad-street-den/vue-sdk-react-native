@@ -40,7 +40,7 @@ export const ERROR_CODES = {
     message: 'Unable to decode json from server',
   },
   ERR0011: {
-    code: 'ERR00011',
+    code: 'ERR0011',
     message: 'Unknown Error',
   },
   ERR0012: {

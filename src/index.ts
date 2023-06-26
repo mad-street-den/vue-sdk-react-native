@@ -50,13 +50,13 @@ const init = async ({
       method: ApiMethods.GET,
     });
     if (response) {
-      if (response?.status === 200) {
-        const result = await response.json();
+      const { status, result } = response;
+      if (status === 200) {
         if (result.data?.events) {
           constructDiscoverEventsMap(result.data.events as EventData[]);
         }
       } else {
-        logger.error(JSON.stringify(response));
+        logger.error(JSON.stringify(result));
       }
     }
   } catch (error: any) {

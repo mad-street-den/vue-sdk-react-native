@@ -59,7 +59,13 @@ export const apiCall = async ({
           logger.error(
             `{ status: ${ERROR_CODES.ERR0012.code}, message: ${ERROR_CODES.ERR0012.message} }`
           );
-          return null;
+          return {
+            status: ERROR_CODES.ERR0012.code,
+            result: {
+              status: ERROR_CODES.ERR0012.code,
+              message: ERROR_CODES.ERR0012.message,
+            },
+          };
         }
         const result = await response.json();
         if (response.status === 200) {
@@ -67,24 +73,42 @@ export const apiCall = async ({
             logger.error(
               `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
             );
-            return null;
+            return {
+              status: ERROR_CODES.ERR009.code,
+              result: {
+                status: ERROR_CODES.ERR009.code,
+                message: ERROR_CODES.ERR009.message,
+              },
+            };
           }
-          return response;
+          return { result, status: response.status };
         } else {
           if (!!result && typeof result === 'object') {
-            return response;
+            return { result, status: response.status };
           } else {
             logger.error(
               `{ status: ${ERROR_CODES.ERR0011.code}, message: ${ERROR_CODES.ERR0011.message} }`
             );
-            return null;
+            return {
+              status: ERROR_CODES.ERR0011.code,
+              result: {
+                status: ERROR_CODES.ERR0011.code,
+                message: ERROR_CODES.ERR0011.message,
+              },
+            };
           }
         }
       } catch (err) {
         logger.error(
           `{ status: ${ERROR_CODES.ERR0010.code}, message: ${ERROR_CODES.ERR0010.message} }`
         );
-        return null;
+        return {
+          status: ERROR_CODES.ERR0010.code,
+          result: {
+            status: ERROR_CODES.ERR0010.code,
+            message: ERROR_CODES.ERR0010.message,
+          },
+        };
       }
     }
   } catch (error: any) {
@@ -92,12 +116,25 @@ export const apiCall = async ({
       logger.error(
         `{ status: ${ERROR_CODES.ERR006.code}, message: ${ERROR_CODES.ERR006.message} }`
       );
+      return {
+        status: ERROR_CODES.ERR006.code,
+        result: {
+          status: ERROR_CODES.ERR006.code,
+          message: ERROR_CODES.ERR006.message,
+        },
+      };
     } else {
       logger.error(
         `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
       );
+      return {
+        status: ERROR_CODES.ERR005.code,
+        result: {
+          status: ERROR_CODES.ERR005.code,
+          message: ERROR_CODES.ERR005.message,
+        },
+      };
     }
-    return null;
   }
 };
 

@@ -35,8 +35,8 @@ export const useEvents = () => {
           method: ApiMethods.GET,
         });
         if (response) {
-          const result = await response.json();
-          if (result.data?.events) {
+          const { result } = response;
+          if (result?.data?.events) {
             await constructDiscoverEventsMap(result.data.events);
             configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
             if (configMapResponse) {
@@ -93,9 +93,11 @@ export const useEvents = () => {
             ? { headers: { 'x-correlation-id': correlationId } }
             : {}),
         });
-        if (response?.status === API_SUCCESS_STATUS) {
-          const result = await response?.json();
-          logger.info(JSON.stringify(result));
+        if (response) {
+          const { status, result } = response;
+          if (status === API_SUCCESS_STATUS) {
+            logger.info(JSON.stringify(result));
+          }
         }
       } catch (error) {
         logger.error(`ERROR: ${error}`);

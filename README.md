@@ -21,16 +21,16 @@
 
 
 <a name="introduction"></a>
-# Overview
+## Overview
 
 Welcome to the official MSD React Native Library
 
-# Quick Start Guide
+## Quick Start Guide
 
-## 1. Install MSD
+### 1. Install MSD
 You will need your project token for initializing your library. You can get your project token from [project settings](https://www.madstreetden.com/contact-us/).
 
-### Prerequisites
+#### Prerequisites
 - React Native v0.6+
 #### Steps
 1. Under your app's root directory, install MSD React Native SDK. 
@@ -43,7 +43,7 @@ pod install
 ``` 
 
 
-## 2. Initialize MSD
+### 2. Initialize MSD
 You must first initialize with your project token and msd base url. You can get your project token from [project settings](https://msd.com/settings/project).
 
 ```js
@@ -59,7 +59,7 @@ init({ token, baseUrl, loggingEnabled });
 Once you've called this method once, you can access all `msd` functions throughout the rest of your application.
 
 
-## 3. Discover Events
+### 3. Discover Events
 
 To ensure accurate and comprehensive event tracking, it is recommended to call the discoverEvents function before invoking the track function in your SDK integration. The discoverEvents function retrieves the essential information related to track events, such as event names, properties, and default properties. This step allows you to populate the necessary data and configure the event tracking accordingly.
 ```js
@@ -73,7 +73,7 @@ discoverEvents();
 ```
 You can see the events list in console if you set `loggingEnabled` as `true` in init call.
 
-## 4. Track Event
+### 4. Track Event
 
 To track custom events using our SDK, you can utilize the track function. This function allows you to capture specific actions or interactions within your application and gather valuable data for analysis.
 
@@ -113,7 +113,7 @@ The SDK automatically includes several properties when tracking events, eliminat
 <!-- TABLE_GENERATE_END -->
 
 
-## 5. Get Recommendations
+### 5. Get Recommendations
 
 The getRecommendation function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
 
@@ -178,7 +178,7 @@ The SDK automatically includes several properties when tracking events, eliminat
 
 <!-- TABLE_GENERATE_END -->
 
-## 6. Set User
+### 6. Set User
 
 The setUser function in the SDK allows you to associate a user ID with subsequent API calls after the user has logged in. This user ID is used to track user-specific events and behaviors, providing personalized experiences and accurate analytics.
 
@@ -189,7 +189,7 @@ const userId = 'YOUR_USER_ID';
 setUser({ userId })
 ```
 
-## 7. Reset User Profile
+### 7. Reset User Profile
 
 The resetUseR function in the SDK allows you to clear the user information and reset the SDK state when the user logs out of your application. This ensures that any user-specific data and tracking are cleared and no longer associated with the user.
 
@@ -199,7 +199,7 @@ import { resetUser } from 'msd-react-native';
 resetUser()
 
 ```
-## Complete Code Example
+### Complete Code Example
 Here's a runnable code example that covers everything in this quickstart guide.
 ```js
 
@@ -216,116 +216,94 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import { init, setUser, resetUser, useEvents, useRecommendations, useDiscoverEvents } from 'react-native-msd';
+import { init, setUser, useEvents, useRecommendations } from 'react-native-msd';
 
 function App(): JSX.Element {
-useEffect(()=>{
-  const token = 'YOUR_TOKEN';
-  const baseUrl = 'GIVEN_MSD_BASE_URL';
-  init({ token, baseUrl, loggingEnabled: false });
-  setUser({ userId: 'YOUR_USER_ID' });
-},[])
+  useEffect(() => {
+    const token = 'YOUR_TOKEN';
+    const baseUrl = 'GIVEN_MSD_BASE_URL';
+    init({token, baseUrl, loggingEnabled: true });
+    setUser({userId: 'YOUR_USER_ID'});
+  }, []);
 
-const { recommendations, getRecommendationByStrategy } = useRecommendations();
+  const { recommendations, getRecommendationByStrategy } = useRecommendations();
 
-
-const getRecommendations = () => {
-  const strategyName = 'YOUR_STRATEGY_NAME';
-  const requestParams = {
-  // Your request params
-    YOUR_KEY: 'YOUR_VALUE'
+  const getRecommendations = () => {
+    const strategyName = 'YOUR_STRATEGY_NAME';
+    const requestParams = {
+      // Your request params
+      YOUR_KEY: 'YOUR_VALUE'
+    };
+    const correlationId = 'YOUR_CORRELATION_ID';
+    getRecommendationByStrategy(strategyName, requestParams, correlationId);
   };
-  const correlationId = 'YOUR_CORRELATION_ID';
-  getRecommendationByStrategy(requestType, requestParams, correlationId);
-};
 
-const { track } = useEvents();
+  const { track } = useEvents();
 
-const trackEvent = () => {
-  const eventName = 'YOUR_CUSTOM_EVENT_NAME';
-  const requestParams = {
-  // Your request params
-    YOUR_KEY: 'YOUR_VALUE'
+  const trackEvent = () => {
+    const eventName = 'YOUR_CUSTOM_EVENT_NAME';
+    const requestParams = {
+      // Your request params
+      YOUR_KEY: 'YOUR_VALUE',
+    };
+    const correlationId = 'YOUR_CORRELATION_ID';
+    track(eventName, requestParams, correlationId);
   };
-  const correlationId = 'YOUR_CORRELATION_ID';
-  track(eventName, requestParams, correlationId);
-};
 
+  const renderRecommendations = () => {
+    return (
+      <ScrollView horizontal>
+        {recommendations?.data?.map((item: any) => (
+          <View key={item?.title} style={styles.productCard}>
+            <View>
+              <Image
+                style={styles.productImage}
+                source={{uri: item.image_link}}
+              />
+            </View>
+            <View>
+              <Text numberOfLines={2} style={styles.productCardTitle}>
+                {item?.title}
+              </Text>
+              <Text style={styles.productPrice}>{`${item?.price}$`}</Text>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
+    );
+  };
 
-const renderRecommendations = () => {
-return (
-  <ScrollView horizontal>
-    {recommendations?.data?.length > 0 &&
-    recommendations?.data[0].data?.map((item: any) => (
-      <View key={item?.title} style={styles.productCard}>
-        <View>
-          <Image
-          style={styles.productImage}
-          source={{ uri: item.image_link }}
-          />
-        </View>
-        <View>
-          <Text numberOfLines={2} style={styles.productCardTitle}>
-          {item?.title}
-          </Text>
-          <Text style={styles.productPrice}>{`${item?.price}$`}</Text>
-        </View>
+  const renderLoader = () => {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size={'large'} />
       </View>
-    ))}
-  </ScrollView>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.backgroundStyle}>
+      {recommendations.isLoading && renderLoader()}
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles.backgroundStyle}>
+        <View>
+          <Button
+            color="blue"
+            onPress={getRecommendations}
+            title="Get Recommendations"
+          />
+          <Button color="blue" onPress={trackEvent} title="Log Event" />
+          {renderRecommendations()}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-};
-
-
-const renderLoader = () => {
-return (
-<View style={styles.loaderContainer}>
-<ActivityIndicator size={'large'} />
-</View>
-);
-};
-
-
-return (
-<SafeAreaView style={styles.backgroundStyle}>
-{recommendations.isLoading && renderLoader()}
-<ScrollView
-contentInsetAdjustmentBehavior="automatic"
-style={styles.backgroundStyle}>
-<View>
-<Button
-color="blue"
-onPress={getRecommendations}
-title="Get Recommendations"
-/>
-<Button color="blue" onPress={trackEvent} title="Log Event" />
-{renderRecommendations()}
-</View>
-</ScrollView>
-</SafeAreaView>
-);
 }
-
 
 const styles = StyleSheet.create({
   backgroundStyle: {
     flex: 1,
-  }
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
   productCard: {
     padding: 10,
@@ -367,7 +345,7 @@ export default App;
 
 ```
 
-## I want to know more!
+### I want to know more!
 
 No worries, here are some links that you will find useful:
 * **[Advanced React Native Guide](https://www.madstreetden.com/industry-solutions/)**

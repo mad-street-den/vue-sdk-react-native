@@ -47,10 +47,12 @@ export const useRecommendations = () => {
             : {}),
         });
         if (response) {
-          const result = await response.json();
-          if (response?.status === API_SUCCESS_STATUS) {
+          const { status, result } = response;
+          if (status === API_SUCCESS_STATUS) {
             setRecommendations(result?.data || null);
+            setError(null);
           } else {
+            setRecommendations(null);
             setError(result);
           }
         }

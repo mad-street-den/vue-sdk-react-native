@@ -67,6 +67,8 @@ describe('useEvents', () => {
       await result.current.track(eventName, params, '');
     });
 
-    expect(logger.error).toHaveBeenCalledWith('ERROR: Discover events error');
+    expect(logger.error).toHaveBeenCalledWith(
+      `{ status: ${ERROR_CODES.ERR0010.code}, message: ${ERROR_CODES.ERR0010.message} }`
+    );
   });
 });

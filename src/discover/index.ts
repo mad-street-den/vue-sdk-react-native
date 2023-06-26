@@ -22,10 +22,12 @@ export const useDiscoverEvents = () => {
         method: ApiMethods.GET,
       });
       if (response) {
-        const result = await response.json();
-        if (response?.status === API_SUCCESS_STATUS) {
+        const { status, result } = response;
+        if (status === API_SUCCESS_STATUS) {
           setDiscoverResponse(result?.data || null);
+          setError(null);
         } else {
+          setDiscoverResponse(null);
           setError(result);
         }
       }
