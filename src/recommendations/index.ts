@@ -29,6 +29,8 @@ export const useRecommendations = () => {
   ) => {
     if (properties) {
       setLoading(true);
+      setRecommendations(null);
+      setError(null);
       const params = {
         blox_uuid: await getFromStorage(MAD_UUID),
         user_id: await getFromStorage(MSD_USER_ID),
@@ -46,6 +48,7 @@ export const useRecommendations = () => {
             ? { headers: { 'x-correlation-id': correlationId } }
             : {}),
         });
+        setLoading(false);
         if (response) {
           const { status, result } = response;
           if (status === API_SUCCESS_STATUS) {
@@ -56,7 +59,6 @@ export const useRecommendations = () => {
             setError(result);
           }
         }
-        setLoading(false);
       } catch (err) {
         setLoading(false);
         setRecommendations(null);
@@ -70,6 +72,7 @@ export const useRecommendations = () => {
         });
       }
     } else {
+      setLoading(false);
       setRecommendations(null);
       setError({
         errors: [

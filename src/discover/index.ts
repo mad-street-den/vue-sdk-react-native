@@ -16,11 +16,14 @@ export const useDiscoverEvents = () => {
 
   const discoverEvents = async () => {
     setLoading(true);
+    setDiscoverResponse(null);
+    setError(null);
     try {
       const response = await apiCall({
         url: MSD_DISCOVER_EVENTS_ENDPOINT,
         method: ApiMethods.GET,
       });
+      setLoading(false);
       if (response) {
         const { status, result } = response;
         if (status === API_SUCCESS_STATUS) {
@@ -31,7 +34,6 @@ export const useDiscoverEvents = () => {
           setError(result);
         }
       }
-      setLoading(false);
     } catch (err) {
       setLoading(false);
       setDiscoverResponse(null);

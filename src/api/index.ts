@@ -5,7 +5,7 @@ import {
   ERROR_CODES,
 } from '../constants';
 import { isNetConnected } from '../native-bridge';
-import { getFromStorage, logger } from '../utils';
+import { getFromStorage } from '../utils';
 import type { ApiCallParams, IError, RequestParam } from './types';
 
 enum ApiMethods {
@@ -56,9 +56,6 @@ export const apiCall = async ({
       clearTimeout(id);
       try {
         if (response.status >= 500 && response.status <= 599) {
-          logger.error(
-            `{ status: ${ERROR_CODES.ERR0012.code}, message: ${ERROR_CODES.ERR0012.message} }`
-          );
           return {
             status: ERROR_CODES.ERR0012.code,
             result: {
@@ -70,9 +67,6 @@ export const apiCall = async ({
         const result = await response.json();
         if (response.status === 200) {
           if (!result || !result.data) {
-            logger.error(
-              `{ status: ${ERROR_CODES.ERR009.code}, message: ${ERROR_CODES.ERR009.message} }`
-            );
             return {
               status: ERROR_CODES.ERR009.code,
               result: {
@@ -86,9 +80,6 @@ export const apiCall = async ({
           if (!!result && typeof result === 'object') {
             return { result, status: response.status };
           } else {
-            logger.error(
-              `{ status: ${ERROR_CODES.ERR0011.code}, message: ${ERROR_CODES.ERR0011.message} }`
-            );
             return {
               status: ERROR_CODES.ERR0011.code,
               result: {
@@ -99,9 +90,6 @@ export const apiCall = async ({
           }
         }
       } catch (err) {
-        logger.error(
-          `{ status: ${ERROR_CODES.ERR0010.code}, message: ${ERROR_CODES.ERR0010.message} }`
-        );
         return {
           status: ERROR_CODES.ERR0010.code,
           result: {
@@ -113,9 +101,6 @@ export const apiCall = async ({
     }
   } catch (error: any) {
     if (error.message === 'Aborted') {
-      logger.error(
-        `{ status: ${ERROR_CODES.ERR006.code}, message: ${ERROR_CODES.ERR006.message} }`
-      );
       return {
         status: ERROR_CODES.ERR006.code,
         result: {
@@ -124,9 +109,6 @@ export const apiCall = async ({
         },
       };
     } else {
-      logger.error(
-        `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
-      );
       return {
         status: ERROR_CODES.ERR005.code,
         result: {

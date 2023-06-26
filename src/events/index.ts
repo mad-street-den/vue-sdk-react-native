@@ -97,10 +97,14 @@ export const useEvents = () => {
           const { status, result } = response;
           if (status === API_SUCCESS_STATUS) {
             logger.info(JSON.stringify(result));
+          } else {
+            logger.error(JSON.stringify(result));
           }
         }
       } catch (error) {
-        logger.error(`ERROR: ${error}`);
+        logger.error(
+          `{ status: ${ERROR_CODES.ERR0011.code}, message: ${ERROR_CODES.ERR0011.message} }`
+        );
       }
     } else {
       logger.error(
