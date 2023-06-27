@@ -3,7 +3,6 @@ import fetchMock from 'jest-fetch-mock';
 import { apiCall, ApiMethods } from '..';
 import { isNetConnected } from '../../native-bridge';
 import { getFromStorage } from '../../utils/storage';
-import { logger } from '../../utils/logger';
 import { MSD_API_KEY, ERROR_CODES, MSD_BASE_URL } from '../../constants';
 
 jest.mock('../../native-bridge');
@@ -21,7 +20,14 @@ describe('apiCall', () => {
 
   it('should make a successful API call', async () => {
     const testEndPoint = 'test-endpoint';
-    const sampleResponse = JSON.stringify({ data: 'sample data' });
+    const sampleResult = JSON.stringify({
+      data: 'sample data',
+    });
+
+    const sampleResponse = {
+      result: { data: 'sample data' },
+      status: 200,
+    };
 
     (
       isNetConnected as jest.MockedFunction<typeof isNetConnected>
@@ -30,7 +36,7 @@ describe('apiCall', () => {
       .mockResolvedValueOnce(apiKey)
       .mockResolvedValueOnce(baseUrl);
 
-    fetchMock.mockResponseOnce(sampleResponse, {
+    fetchMock.mockResponseOnce(sampleResult, {
       status: 200,
     });
 
@@ -50,7 +56,7 @@ describe('apiCall', () => {
       },
       signal: expect.any(AbortSignal),
     });
-    expect(JSON.parse(result.body)).toEqual(JSON.parse(sampleResponse));
+    expect(result).toEqual(sampleResponse);
   });
 
   it('should handle network connection error', async () => {
@@ -73,10 +79,13 @@ describe('apiCall', () => {
     expect(isNetConnected).toHaveBeenCalled();
     expect(getFromStorage).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(logger.error).toHaveBeenCalledWith(
-      `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
-    );
-    expect(result).toEqual(null);
+    expect(result).toEqual({
+      status: ERROR_CODES.ERR005.code,
+      result: {
+        status: ERROR_CODES.ERR005.code,
+        message: ERROR_CODES.ERR005.message,
+      },
+    });
   });
 
   it('should handle API call error 500', async () => {
@@ -111,9 +120,12 @@ describe('apiCall', () => {
       },
       signal: expect.any(AbortSignal),
     });
-    expect(logger.error).toHaveBeenCalledWith(
-      `{ status: ${ERROR_CODES.ERR0012.code}, message: ${ERROR_CODES.ERR0012.message} }`
-    );
-    expect(result).toEqual(null);
+    expect(result).toEqual({
+      status: ERROR_CODES.ERR0012.code,
+      result: {
+        status: ERROR_CODES.ERR0012.code,
+        message: ERROR_CODES.ERR0012.message,
+      },
+    });
   });
 });

@@ -6,7 +6,6 @@ import {
   EVENT_MEDIUM,
   MAD_UUID,
   MSD_USER_ID,
-  SDK_PLATFORM,
   DISCOVER_EVENTS_MAP,
   TrackApiBasicParams,
   API_SUCCESS_STATUS,
@@ -61,7 +60,7 @@ export const useEvents = () => {
         > = {
           blox_uuid: await getFromStorage(MAD_UUID),
           user_id: await getFromStorage(MSD_USER_ID),
-          platform: SDK_PLATFORM,
+          platform: Platform.OS,
           url: bundleId,
           medium: EVENT_MEDIUM,
           referrer: Platform.OS,

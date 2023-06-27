@@ -30,9 +30,13 @@ export const apiCall = async ({
   try {
     const isConnected = await isNetConnected();
     if (!isConnected) {
-      throw new Error(
-        `{ status: ${ERROR_CODES.ERR005.code}, message: ${ERROR_CODES.ERR005.message} }`
-      );
+      return {
+        status: ERROR_CODES.ERR005.code,
+        result: {
+          status: ERROR_CODES.ERR005.code,
+          message: ERROR_CODES.ERR005.message,
+        },
+      };
     } else {
       const defaultHeaders = await getDefaultHeaders();
       const requestParam: RequestParam = {
@@ -110,10 +114,10 @@ export const apiCall = async ({
       };
     } else {
       return {
-        status: ERROR_CODES.ERR005.code,
+        status: ERROR_CODES.ERR0012.code,
         result: {
-          status: ERROR_CODES.ERR005.code,
-          message: ERROR_CODES.ERR005.message,
+          status: ERROR_CODES.ERR0012.code,
+          message: ERROR_CODES.ERR0012.message,
         },
       };
     }

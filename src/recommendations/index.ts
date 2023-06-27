@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Platform } from 'react-native';
 
 import {
   API_SUCCESS_STATUS,
@@ -14,6 +15,7 @@ import type {
   IGetRecommendationBaseParams,
 } from './types';
 import { getFromStorage } from '../utils';
+import { getBundleId } from '../native-bridge';
 
 export const useRecommendations = () => {
   const [recommendations, setRecommendations] = useState<Array<object> | null>(
@@ -31,9 +33,12 @@ export const useRecommendations = () => {
       setLoading(true);
       setRecommendations(null);
       setError(null);
+      const bundleId = await getBundleId();
       const params = {
         blox_uuid: await getFromStorage(MAD_UUID),
         user_id: await getFromStorage(MSD_USER_ID),
+        medium: Platform.OS,
+        url: bundleId,
         platform: SDK_PLATFORM,
         ...baseParams,
         ...properties,

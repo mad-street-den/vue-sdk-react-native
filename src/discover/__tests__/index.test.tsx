@@ -17,28 +17,30 @@ describe('useDiscoverEvents', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValueOnce({
       status: 200,
-      json: jest.fn().mockResolvedValueOnce(mockDiscoverEventsResponse),
+      result: mockDiscoverEventsResponse,
     });
 
-    const { result, waitForNextUpdate } = renderHook(() => useDiscoverEvents());
+    const { result: _result, waitForNextUpdate } = renderHook(() =>
+      useDiscoverEvents()
+    );
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(false);
-    expect(result.current.discoverEventsResponse.data).toBeNull();
-    expect(result.current.discoverEventsResponse.error).toBeNull();
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(false);
+    expect(_result.current.discoverEventsResponse.data).toBeNull();
+    expect(_result.current.discoverEventsResponse.error).toBeNull();
 
     act(() => {
-      result.current.discoverEvents();
+      _result.current.discoverEvents();
     });
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(true);
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(true);
 
     await waitForNextUpdate();
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(false);
-    expect(result.current.discoverEventsResponse.data).toEqual(
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(false);
+    expect(_result.current.discoverEventsResponse.data).toEqual(
       mockDiscoverEventsResponse.data
     );
-    expect(result.current.discoverEventsResponse.error).toBeNull();
+    expect(_result.current.discoverEventsResponse.error).toBeNull();
   });
 
   it('should handle API call error', async () => {
@@ -55,22 +57,24 @@ describe('useDiscoverEvents', () => {
       mockError
     );
 
-    const { result, waitForNextUpdate } = renderHook(() => useDiscoverEvents());
+    const { result: _result, waitForNextUpdate } = renderHook(() =>
+      useDiscoverEvents()
+    );
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(false);
-    expect(result.current.discoverEventsResponse.data).toBeNull();
-    expect(result.current.discoverEventsResponse.error).toBeNull();
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(false);
+    expect(_result.current.discoverEventsResponse.data).toBeNull();
+    expect(_result.current.discoverEventsResponse.error).toBeNull();
 
     act(() => {
-      result.current.discoverEvents();
+      _result.current.discoverEvents();
     });
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(true);
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(true);
 
     await waitForNextUpdate();
 
-    expect(result.current.discoverEventsResponse.isLoading).toBe(false);
-    expect(result.current.discoverEventsResponse.data).toBeNull();
-    expect(result.current.discoverEventsResponse.error).toEqual(mockError);
+    expect(_result.current.discoverEventsResponse.isLoading).toBe(false);
+    expect(_result.current.discoverEventsResponse.data).toBeNull();
+    expect(_result.current.discoverEventsResponse.error).toEqual(mockError);
   });
 });

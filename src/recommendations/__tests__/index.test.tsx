@@ -16,7 +16,7 @@ describe('useRecommendations', () => {
   const user_id = 'user-id';
 
   it('should fetch recommendations by module successfully', async () => {
-    const mockDiscoverEventsResponse = {
+    const mockRecommendationByModuleResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -25,15 +25,15 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      json: jest.fn().mockResolvedValueOnce(mockDiscoverEventsResponse),
+      result: mockRecommendationByModuleResponse,
     });
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result: _result, waitForNextUpdate } = renderHook(() =>
       useRecommendations()
     );
 
     act(() => {
-      result.current.getRecommendationByModule(
+      _result.current.getRecommendationByModule(
         'module_1',
         {
           catalogs: {},
@@ -42,7 +42,7 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(_result.current.recommendations.isLoading).toBe(true);
 
     await waitForNextUpdate();
 
@@ -53,17 +53,19 @@ describe('useRecommendations', () => {
       params: {
         blox_uuid: expect.any(String),
         user_id: expect.any(String),
-        platform: 'mobile',
+        platform: expect.any(String),
+        medium: expect.any(String),
+        url: expect.any(String),
         module_name: 'module_1',
         catalogs: {},
       },
     });
 
-    expect(result.current.recommendations.data).toEqual(
-      mockDiscoverEventsResponse.data
+    expect(_result.current.recommendations.data).toEqual(
+      mockRecommendationByModuleResponse.data
     );
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toBe(null);
+    expect(_result.current.recommendations.isLoading).toBe(false);
+    expect(_result.current.recommendations.error).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by module', async () => {
@@ -107,7 +109,7 @@ describe('useRecommendations', () => {
   });
 
   it('should fetch recommendations by strategy successfully', async () => {
-    const mockDiscoverEventsResponse = {
+    const mockRecommendationByStrategyResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -116,15 +118,15 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      json: jest.fn().mockResolvedValueOnce(mockDiscoverEventsResponse),
+      result: mockRecommendationByStrategyResponse,
     });
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result: _result, waitForNextUpdate } = renderHook(() =>
       useRecommendations()
     );
 
     act(() => {
-      result.current.getRecommendationByStrategy(
+      _result.current.getRecommendationByStrategy(
         'strategy_1',
         {
           catalogs: {},
@@ -133,7 +135,7 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(_result.current.recommendations.isLoading).toBe(true);
 
     await waitForNextUpdate();
 
@@ -144,17 +146,19 @@ describe('useRecommendations', () => {
       params: {
         blox_uuid: expect.any(String),
         user_id: expect.any(String),
-        platform: 'mobile',
+        platform: expect.any(String),
+        medium: expect.any(String),
+        url: expect.any(String),
         strategy_name: 'strategy_1',
         catalogs: {},
       },
     });
 
-    expect(result.current.recommendations.data).toEqual(
-      mockDiscoverEventsResponse.data
+    expect(_result.current.recommendations.data).toEqual(
+      mockRecommendationByStrategyResponse.data
     );
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toBe(null);
+    expect(_result.current.recommendations.isLoading).toBe(false);
+    expect(_result.current.recommendations.error).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by strategy', async () => {
@@ -200,7 +204,7 @@ describe('useRecommendations', () => {
   });
 
   it('should fetch recommendations by page successfully', async () => {
-    const mockDiscoverEventsResponse = {
+    const mockRecommendationByPageResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -209,15 +213,15 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      json: jest.fn().mockResolvedValueOnce(mockDiscoverEventsResponse),
+      result: mockRecommendationByPageResponse,
     });
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result: _result, waitForNextUpdate } = renderHook(() =>
       useRecommendations()
     );
 
     act(() => {
-      result.current.getRecommendationByPage(
+      _result.current.getRecommendationByPage(
         'page_1',
         {
           catalogs: {},
@@ -226,7 +230,7 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(_result.current.recommendations.isLoading).toBe(true);
 
     await waitForNextUpdate();
 
@@ -237,17 +241,19 @@ describe('useRecommendations', () => {
       params: {
         blox_uuid: expect.any(String),
         user_id: expect.any(String),
-        platform: 'mobile',
+        platform: expect.any(String),
         page_name: 'page_1',
+        medium: expect.any(String),
+        url: expect.any(String),
         catalogs: {},
       },
     });
 
-    expect(result.current.recommendations.data).toEqual(
-      mockDiscoverEventsResponse.data
+    expect(_result.current.recommendations.data).toEqual(
+      mockRecommendationByPageResponse.data
     );
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toBe(null);
+    expect(_result.current.recommendations.isLoading).toBe(false);
+    expect(_result.current.recommendations.error).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by page', async () => {
