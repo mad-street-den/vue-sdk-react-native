@@ -6,8 +6,8 @@ import {
   ERROR_CODES,
   MAD_UUID,
   MSD_USER_ID,
-  SDK_PLATFORM,
   MSD_SEARCH_ENDPOINT,
+  SDK_MEDIUM,
 } from '../constants';
 import { apiCall, ApiMethods, IError } from '../api';
 import type {
@@ -37,9 +37,11 @@ export const useRecommendations = () => {
       const params = {
         blox_uuid: await getFromStorage(MAD_UUID),
         user_id: await getFromStorage(MSD_USER_ID),
-        medium: Platform.OS,
+        platform: Platform.OS,
         url: bundleId,
-        platform: SDK_PLATFORM,
+        medium: SDK_MEDIUM,
+        referrer: Platform.OS,
+        timestamp: Date.now(),
         ...baseParams,
         ...properties,
       };

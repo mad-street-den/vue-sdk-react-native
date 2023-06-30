@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import {
   ERROR_CODES,
   getTrackApiBasicParams,
-  EVENT_MEDIUM,
+  SDK_MEDIUM,
   MAD_UUID,
   MSD_USER_ID,
   DISCOVER_EVENTS_MAP,
@@ -62,7 +62,7 @@ export const useEvents = () => {
           user_id: await getFromStorage(MSD_USER_ID),
           platform: Platform.OS,
           url: bundleId,
-          medium: EVENT_MEDIUM,
+          medium: SDK_MEDIUM,
           referrer: Platform.OS,
           timestamp: Date.now(),
         };
