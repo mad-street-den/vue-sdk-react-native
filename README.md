@@ -66,11 +66,20 @@ To ensure accurate and comprehensive event tracking, it is recommended to call t
 
 import { useDiscoverEvents } from 'msd-react-native';
 
-// discovery method 
-const { discoverEvents } = useDiscoverEvents(); 
+const {
+  discoverEvents,
+  discoverEventsResponse: { data, isLoading, error }
+} = useDiscoverEvents();
 
+// Discover method
 discoverEvents();
 ```
+The `discoverEventsResponse` field returned by the `useDiscoverEvents` hook is an object containing the following properties:
+
+`data`: The discover events data returned by the API. This property will be null initially and will be updated once the API call is completed successfully.
+`isLoading`: A boolean value indicating whether the discover events data is currently being loaded from the API. It will be true while the API call is in progress, and false once the data is fetched or an error occurs.
+`error`: An error object, if any, that occurred during the API call. This property will be null if there are no errors.
+
 You can see the events list in console if you set `loggingEnabled` as `true` in init call.
 
 ### 4. Track Event
@@ -124,15 +133,20 @@ Results of these async methods are getting in the `recommendation` object.
 
 import { useRecommendations } from 'msd-react-native';
 
-const { getRecommendationByStrategy, getRecommendationByModule, getRecommendationByPage } = useRecommendations();
+const {
+    getRecommendationByStrategy,
+    getRecommendationByModule,
+    getRecommendationByPage,
+    recommendations: { data, isLoading, error }
+  } = useRecommendations();
 ```
 
 #### 1. Get Recommendations by Page
 
 ```js
 const requestParamsForPage = {
-param1: 'VALUE_1',
-param2: 'VALUE_2'
+  param1: 'VALUE_1',
+  param2: 'VALUE_2'
 };
 const pageReference = 'YOUR_PAGE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
@@ -163,6 +177,11 @@ const strategyReference = 'YOUR_STRATEGY_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
 getRecommendationByStrategy(strategyReference, requestParamsForStrategy, correlationId);
 ```
+The `recommendations` field returned by the `useRecommendations` hook is an object containing the following properties:
+
+`data`: The recommendations data returned by the API. It represents the actual recommendations based on the chosen strategy, module, or page. This property will be null initially and will be updated once the API call is completed successfully.
+`isLoading`: A boolean value indicating whether the recommendations data is currently being loaded from the API. It will be true while the API call is in progress, and false once the data is fetched or an error occurs.
+`error`: An error object, if any, that occurred during the API call. This property will be null if there are no errors.
 
 The SDK automatically includes several properties when tracking events, eliminating the need for users to manually add them. Here are some of the properties that are automatically added by the SDK:
 
