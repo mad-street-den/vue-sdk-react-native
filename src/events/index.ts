@@ -64,7 +64,6 @@ export const useEvents = () => {
           url: bundleId,
           medium: SDK_MEDIUM,
           referrer: Platform.OS,
-          timestamp: Date.now(),
         };
         getTrackApiBasicParams().forEach((key) => {
           const value = trackApiBasicParamValueMap[key as TrackApiBasicParams];

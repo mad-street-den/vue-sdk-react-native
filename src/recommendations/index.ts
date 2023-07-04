@@ -34,14 +34,14 @@ export const useRecommendations = () => {
       setRecommendations(null);
       setError(null);
       const bundleId = await getBundleId();
+      const userId = await getFromStorage(MSD_USER_ID);
       const params = {
         blox_uuid: await getFromStorage(MAD_UUID),
-        user_id: await getFromStorage(MSD_USER_ID),
+        ...(userId ? { user_id: userId } : {}),
         platform: Platform.OS,
         url: bundleId,
         medium: SDK_MEDIUM,
         referrer: Platform.OS,
-        timestamp: Date.now(),
         ...baseParams,
         ...properties,
       };

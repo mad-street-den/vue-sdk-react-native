@@ -114,7 +114,6 @@ The SDK automatically includes several properties when tracking events, eliminat
 | blox_uuid     | Device UUID generated                  | 5fbeac07-f385-4145-a690-e98571ae985e
 | platform      | Platform of the user                   | android or ios
 | medium        | Medium from where requests are sent    | application
-| timestamp     | Timestamp of the request               | 1620989873
 | referrer      | same values as platform for mobile app | android or ios
 | user_id       | user id passed while calling setUser   | 81bf1152-ce89-4954-b38e-f81875258f6e
 | url           | Bundle id of the application           | com.example.myapp
