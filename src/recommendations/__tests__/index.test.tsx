@@ -20,6 +20,7 @@ describe('useRecommendations', () => {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
+      .mockResolvedValueOnce(user_id)
       .mockResolvedValueOnce(blox_uuid)
       .mockResolvedValueOnce(user_id);
 
@@ -42,7 +43,9 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(_result.current.recommendations.isLoading).toBe(true);
+    expect(
+      _result.current.recommendations.isLoading.isRecommendationsByModuleLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
@@ -62,11 +65,15 @@ describe('useRecommendations', () => {
       },
     });
 
-    expect(_result.current.recommendations.data).toEqual(
-      mockRecommendationByModuleResponse.data
-    );
-    expect(_result.current.recommendations.isLoading).toBe(false);
-    expect(_result.current.recommendations.error).toBe(null);
+    expect(
+      _result.current.recommendations.data.recommendationsByModule
+    ).toEqual(mockRecommendationByModuleResponse.data);
+    expect(
+      _result.current.recommendations.isLoading.isRecommendationsByModuleLoading
+    ).toBe(false);
+    expect(
+      _result.current.recommendations.error.recommendationsByModuleError
+    ).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by module', async () => {
@@ -86,9 +93,15 @@ describe('useRecommendations', () => {
       useRecommendations()
     );
 
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.data).toBeNull();
-    expect(result.current.recommendations.error).toBeNull();
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByModuleLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.data.recommendationsByModule
+    ).toBeNull();
+    expect(
+      result.current.recommendations.error.recommendationsByModuleError
+    ).toBeNull();
 
     act(() => {
       result.current.getRecommendationByModule(
@@ -98,15 +111,23 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByModuleLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
     expect(apiCall).toHaveBeenCalledTimes(1);
 
-    expect(result.current.recommendations.data).toBe(null);
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toEqual(mockError);
+    expect(result.current.recommendations.data.recommendationsByModule).toBe(
+      null
+    );
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByModuleLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.error.recommendationsByModuleError
+    ).toEqual(mockError);
   });
 
   it('should fetch recommendations by strategy successfully', async () => {
@@ -114,6 +135,7 @@ describe('useRecommendations', () => {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
+      .mockResolvedValueOnce(user_id)
       .mockResolvedValueOnce(blox_uuid)
       .mockResolvedValueOnce(user_id);
 
@@ -136,7 +158,10 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(_result.current.recommendations.isLoading).toBe(true);
+    expect(
+      _result.current.recommendations.isLoading
+        .isRecommendationsByStrategyLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
@@ -156,11 +181,16 @@ describe('useRecommendations', () => {
       },
     });
 
-    expect(_result.current.recommendations.data).toEqual(
-      mockRecommendationByStrategyResponse.data
-    );
-    expect(_result.current.recommendations.isLoading).toBe(false);
-    expect(_result.current.recommendations.error).toBe(null);
+    expect(
+      _result.current.recommendations.data.recommendationsByStrategy
+    ).toEqual(mockRecommendationByStrategyResponse.data);
+    expect(
+      _result.current.recommendations.isLoading
+        .isRecommendationsByStrategyLoading
+    ).toBe(false);
+    expect(
+      _result.current.recommendations.error.recommendationsByStrategyError
+    ).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by strategy', async () => {
@@ -180,9 +210,16 @@ describe('useRecommendations', () => {
       useRecommendations()
     );
 
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.data).toBeNull();
-    expect(result.current.recommendations.error).toBeNull();
+    expect(
+      result.current.recommendations.isLoading
+        .isRecommendationsByStrategyLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.data.recommendationsByStrategy
+    ).toBeNull();
+    expect(
+      result.current.recommendations.error.recommendationsByStrategyError
+    ).toBeNull();
 
     act(() => {
       result.current.getRecommendationByStrategy(
@@ -194,15 +231,25 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(
+      result.current.recommendations.isLoading
+        .isRecommendationsByStrategyLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
     expect(apiCall).toHaveBeenCalledTimes(1);
 
-    expect(result.current.recommendations.data).toBe(null);
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toEqual(mockError);
+    expect(result.current.recommendations.data.recommendationsByStrategy).toBe(
+      null
+    );
+    expect(
+      result.current.recommendations.isLoading
+        .isRecommendationsByStrategyLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.error.recommendationsByStrategyError
+    ).toEqual(mockError);
   });
 
   it('should fetch recommendations by page successfully', async () => {
@@ -210,6 +257,7 @@ describe('useRecommendations', () => {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
+      .mockResolvedValueOnce(user_id)
       .mockResolvedValueOnce(blox_uuid)
       .mockResolvedValueOnce(user_id);
 
@@ -232,7 +280,9 @@ describe('useRecommendations', () => {
       );
     });
 
-    expect(_result.current.recommendations.isLoading).toBe(true);
+    expect(
+      _result.current.recommendations.isLoading.isRecommendationsByPageLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
@@ -252,11 +302,15 @@ describe('useRecommendations', () => {
       },
     });
 
-    expect(_result.current.recommendations.data).toEqual(
+    expect(_result.current.recommendations.data.recommendationsByPage).toEqual(
       mockRecommendationByPageResponse.data
     );
-    expect(_result.current.recommendations.isLoading).toBe(false);
-    expect(_result.current.recommendations.error).toBe(null);
+    expect(
+      _result.current.recommendations.isLoading.isRecommendationsByPageLoading
+    ).toBe(false);
+    expect(
+      _result.current.recommendations.error.recommendationsByPageError
+    ).toBe(null);
   });
 
   it('should handle API error when fetching recommendations by page', async () => {
@@ -276,22 +330,36 @@ describe('useRecommendations', () => {
       useRecommendations()
     );
 
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.data).toBeNull();
-    expect(result.current.recommendations.error).toBeNull();
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByPageLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.data.recommendationsByPage
+    ).toBeNull();
+    expect(
+      result.current.recommendations.error.recommendationsByPageError
+    ).toBeNull();
 
     act(() => {
       result.current.getRecommendationByPage('page_1', { catalogs: {} }, '');
     });
 
-    expect(result.current.recommendations.isLoading).toBe(true);
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByPageLoading
+    ).toBe(true);
 
     await waitForNextUpdate();
 
     expect(apiCall).toHaveBeenCalledTimes(1);
 
-    expect(result.current.recommendations.data).toBe(null);
-    expect(result.current.recommendations.isLoading).toBe(false);
-    expect(result.current.recommendations.error).toEqual(mockError);
+    expect(result.current.recommendations.data.recommendationsByPage).toBe(
+      null
+    );
+    expect(
+      result.current.recommendations.isLoading.isRecommendationsByPageLoading
+    ).toBe(false);
+    expect(
+      result.current.recommendations.error.recommendationsByPageError
+    ).toEqual(mockError);
   });
 });

@@ -14,16 +14,23 @@ export type IGetRecommendationRequest = {
   unbundle?: boolean;
 };
 
+export enum RecommendationsBaseParams {
+  strategy_name = 'strategy_name',
+  module_name = 'module_name',
+  page_name = 'page_name',
+  text_name = 'text_name',
+}
+
 export type IGetRecommendationBaseParams =
   | {
-      strategy_name: string;
+      [RecommendationsBaseParams.strategy_name]: string;
     }
   | {
-      module_name: string;
+      [RecommendationsBaseParams.module_name]: string;
     }
   | {
-      page_name: string;
+      [RecommendationsBaseParams.page_name]: string;
     }
   | {
-      text_name: string;
+      [RecommendationsBaseParams.text_name]: string;
     };

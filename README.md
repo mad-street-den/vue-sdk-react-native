@@ -178,9 +178,23 @@ getRecommendationByStrategy(strategyReference, requestParamsForStrategy, correla
 ```
 The `recommendations` field returned by the `useRecommendations` hook is an object containing the following properties:
 
-`data`: The recommendations data returned by the API. It represents the actual recommendations based on the chosen strategy, module, or page. This property will be null initially and will be updated once the API call is completed successfully.
-`isLoading`: A boolean value indicating whether the recommendations data is currently being loaded from the API. It will be true while the API call is in progress, and false once the data is fetched or an error occurs.
-`error`: An error object, if any, that occurred during the API call. This property will be null if there are no errors.
+`data`: An object that holds the recommendations data returned by the API. It includes the following properties:
+* `recommendationsByModule`: An array of recommendations specific to modules.
+* `recommendationsByPage`: An array of recommendations specific to pages.
+* `recommendationsByStrategy`: An array of recommendations specific to strategies.
+* `recommendationsByText`: An array of recommendations based on text.
+
+`isLoading`: An object representing the loading states for different recommendations. It includes the following properties:
+* `isRecommendationsByModuleLoading`: A boolean value indicating whether the recommendations by module are currently being loaded.
+* `isRecommendationsByPageLoading`: A boolean value indicating whether the recommendations by page are currently being loaded.
+* `isRecommendationsByStrategyLoading`: A boolean value indicating whether the recommendations by strategy are currently being loaded.
+* `isRecommendationsByTextLoading`: A boolean value indicating whether the recommendations by text are currently being loaded.
+
+`error`: An object representing the errors that occurred during the API calls for different recommendations. It includes the following properties:
+* `recommendationsByModuleError`: An error object, if any, that occurred while fetching recommendations by module.
+* `recommendationsByPageError`: An error object, if any, that occurred while fetching recommendations by page.
+* `recommendationsByStrategyError`: An error object, if any, that occurred while fetching recommendations by strategy.
+* `recommendationsByTextError`: An error object, if any, that occurred while fetching recommendations by text.
 
 The SDK automatically includes several properties when tracking events, eliminating the need for users to manually add them. Here are some of the properties that are automatically added by the SDK:
 
@@ -244,7 +258,23 @@ function App(): JSX.Element {
     setUser({userId: 'YOUR_USER_ID'});
   }, []);
 
-  const { recommendations, getRecommendationByStrategy } = useRecommendations();
+  const {
+    recommendations: {
+      data: {
+        recommendationsByModule,
+        recommendationsByPage,
+        recommendationsByStrategy
+      },
+      isLoading: {
+        isRecommendationsByModuleLoading,
+        isRecommendationsByPageLoading,
+        isRecommendationsByStrategyLoading
+      }
+    },
+    getRecommendationByStrategy,
+    getRecommendationByModule,
+    getRecommendationByPage,
+  } = useRecommendations();
 
   const getRecommendations = () => {
     const strategyName = 'YOUR_STRATEGY_NAME';
@@ -268,10 +298,10 @@ function App(): JSX.Element {
     track(eventName, requestParams, correlationId);
   };
 
-  const renderRecommendations = () => {
+  const renderRecommendationsByStrategy = () => {
     return (
       <ScrollView horizontal>
-        {recommendations?.data?.map((item: any) => (
+        {recommendationsByStrategy?.[0]?.data?.map((item: any) => (
           <View key={item?.title} style={styles.productCard}>
             <View>
               <Image
@@ -301,7 +331,7 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={styles.backgroundStyle}>
-      {recommendations.isLoading && renderLoader()}
+      {isRecommendationsByModuleLoading && renderLoader()}
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.backgroundStyle}>
@@ -309,10 +339,10 @@ function App(): JSX.Element {
           <Button
             color="blue"
             onPress={getRecommendations}
-            title="Get Recommendations"
+            title="Get Recommendations By Strategy"
           />
           <Button color="blue" onPress={trackEvent} title="Log Event" />
-          {renderRecommendations()}
+          {renderRecommendationsByStrategy()}
         </View>
       </ScrollView>
     </SafeAreaView>

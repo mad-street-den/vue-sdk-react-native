@@ -1,5 +1,5 @@
 import { MSD_IS_LOG_ENABLED } from '../constants';
-import { getFromCache } from './storage';
+import { getFromStorage } from './storage';
 
 enum LogLevel {
   INFO,
@@ -12,11 +12,11 @@ const levelLogFns = {
 };
 
 export const logger = {
-  log: (level: LogLevel.INFO | LogLevel.ERROR, message: string) => {
+  log: async (level: LogLevel.INFO | LogLevel.ERROR, message: string) => {
     const timestamp = new Date().toISOString();
     const levelString = LogLevel[level].toUpperCase();
     const levelLogFn = levelLogFns[level];
-    const isLogEnabled = getFromCache(MSD_IS_LOG_ENABLED);
+    const isLogEnabled = await getFromStorage(MSD_IS_LOG_ENABLED);
     if (isLogEnabled === 'true') {
       levelLogFn(`[${timestamp}] [${levelString}] ${message}`);
     }

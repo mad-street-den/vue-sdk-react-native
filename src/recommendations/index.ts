@@ -10,29 +10,85 @@ import {
   SDK_MEDIUM,
 } from '../constants';
 import { apiCall, ApiMethods, IError } from '../api';
-import type {
+import {
   IGetRecommendationRequest,
   IGetRecommendationBaseParams,
+  RecommendationsBaseParams,
 } from './types';
 import { getFromStorage } from '../utils';
 import { getBundleId } from '../native-bridge';
 
 export const useRecommendations = () => {
-  const [recommendations, setRecommendations] = useState<Array<object> | null>(
-    null
-  );
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<IError | null>(null);
+  const [recommendationsByModule, setRecommendationsByModule] =
+    useState<Array<object> | null>(null);
+  const [recommendationsByPage, setRecommendationsByPage] =
+    useState<Array<object> | null>(null);
+  const [recommendationsByStrategy, setRecommendationsByStrategy] =
+    useState<Array<object> | null>(null);
+  const [recommendationsByText, setRecommendationsByText] =
+    useState<Array<object> | null>(null);
+
+  const [recommendationsByModuleLoading, setRecommendationsByModuleLoading] =
+    useState(false);
+  const [recommendationsByPageLoading, setRecommendationsByPageLoading] =
+    useState(false);
+  const [
+    recommendationsByStrategyLoading,
+    setRecommendationsByStrategyLoading,
+  ] = useState(false);
+  const [recommendationsByTextLoading, setRecommendationsByTextLoading] =
+    useState(false);
+
+  const [recommendationsByModuleError, setRecommendationsByModuleError] =
+    useState<IError | null>(null);
+  const [recommendationsByPageError, setRecommendationsByPageError] =
+    useState<IError | null>(null);
+  const [recommendationsByStrategyError, setRecommendationsByStrategyError] =
+    useState<IError | null>(null);
+  const [recommendationsByTextError, setRecommendationsByTextError] =
+    useState<IError | null>(null);
+
+  const recommendationsSetterMap = {
+    [RecommendationsBaseParams.module_name]: setRecommendationsByModule,
+    [RecommendationsBaseParams.page_name]: setRecommendationsByPage,
+    [RecommendationsBaseParams.strategy_name]: setRecommendationsByStrategy,
+    [RecommendationsBaseParams.text_name]: setRecommendationsByText,
+  };
+  const recommendationsLoadingSetterMap = {
+    [RecommendationsBaseParams.module_name]: setRecommendationsByModuleLoading,
+    [RecommendationsBaseParams.page_name]: setRecommendationsByPageLoading,
+    [RecommendationsBaseParams.strategy_name]:
+      setRecommendationsByStrategyLoading,
+    [RecommendationsBaseParams.text_name]: setRecommendationsByTextLoading,
+  };
+
+  const recommendationsErrorSetterMap = {
+    [RecommendationsBaseParams.module_name]: setRecommendationsByModuleError,
+    [RecommendationsBaseParams.page_name]: setRecommendationsByPageError,
+    [RecommendationsBaseParams.strategy_name]:
+      setRecommendationsByStrategyError,
+    [RecommendationsBaseParams.text_name]: setRecommendationsByTextError,
+  };
 
   const getRecommendation = async (
     baseParams: IGetRecommendationBaseParams,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
+    const baseParamKey = Object.keys(baseParams)[0];
+    // recommendationsData Setter
+    const setRecommendations =
+      recommendationsSetterMap[baseParamKey as RecommendationsBaseParams];
+    const setRecommendationsLoading =
+      recommendationsLoadingSetterMap[
+        baseParamKey as RecommendationsBaseParams
+      ];
+    const setRecommendationsError =
+      recommendationsErrorSetterMap[baseParamKey as RecommendationsBaseParams];
     if (properties) {
-      setLoading(true);
-      setRecommendations(null);
-      setError(null);
+      setRecommendationsLoading?.(true);
+      setRecommendations?.(null);
+      setRecommendationsError?.(null);
       const bundleId = await getBundleId();
       const userId = await getFromStorage(MSD_USER_ID);
       const params = {
@@ -55,21 +111,21 @@ export const useRecommendations = () => {
             ? { headers: { 'x-correlation-id': correlationId } }
             : {}),
         });
-        setLoading(false);
+        setRecommendationsLoading?.(false);
         if (response) {
           const { status, result } = response;
           if (status === API_SUCCESS_STATUS) {
-            setRecommendations(result?.data || null);
-            setError(null);
+            setRecommendations?.(result?.data || null);
+            setRecommendationsError?.(null);
           } else {
-            setRecommendations(null);
-            setError(result);
+            setRecommendations?.(null);
+            setRecommendationsError?.(result);
           }
         }
       } catch (err) {
-        setLoading(false);
-        setRecommendations(null);
-        setError({
+        setRecommendationsLoading?.(false);
+        setRecommendations?.(null);
+        setRecommendationsError?.({
           errors: [
             {
               code: ERROR_CODES.ERR0011.code,
@@ -79,9 +135,9 @@ export const useRecommendations = () => {
         });
       }
     } else {
-      setLoading(false);
-      setRecommendations(null);
-      setError({
+      setRecommendationsLoading?.(false);
+      setRecommendations?.(null);
+      setRecommendationsError?.({
         errors: [
           {
             code: ERROR_CODES.ERR004.code,
@@ -99,7 +155,7 @@ export const useRecommendations = () => {
   ) => {
     getRecommendation(
       {
-        strategy_name: strategyReference,
+        [RecommendationsBaseParams.strategy_name]: strategyReference,
       },
       properties,
       correlationId
@@ -113,7 +169,7 @@ export const useRecommendations = () => {
   ) => {
     getRecommendation(
       {
-        module_name: moduleReference,
+        [RecommendationsBaseParams.module_name]: moduleReference,
       },
       properties,
       correlationId
@@ -127,7 +183,7 @@ export const useRecommendations = () => {
   ) => {
     getRecommendation(
       {
-        page_name: pageReference,
+        [RecommendationsBaseParams.page_name]: pageReference,
       },
       properties,
       correlationId
@@ -141,7 +197,7 @@ export const useRecommendations = () => {
   ) => {
     getRecommendation(
       {
-        text_name: textReference,
+        [RecommendationsBaseParams.text_name]: textReference,
       },
       properties,
       correlationId
@@ -153,6 +209,25 @@ export const useRecommendations = () => {
     getRecommendationByModule,
     getRecommendationByPage,
     getRecommendationByText,
-    recommendations: { data: recommendations, isLoading: loading, error },
+    recommendations: {
+      data: {
+        recommendationsByModule,
+        recommendationsByPage,
+        recommendationsByStrategy,
+        recommendationsByText,
+      },
+      isLoading: {
+        isRecommendationsByModuleLoading: recommendationsByModuleLoading,
+        isRecommendationsByPageLoading: recommendationsByPageLoading,
+        isRecommendationsByStrategyLoading: recommendationsByStrategyLoading,
+        isRecommendationsByTextLoading: recommendationsByTextLoading,
+      },
+      error: {
+        recommendationsByModuleError: recommendationsByModuleError,
+        recommendationsByPageError: recommendationsByPageError,
+        recommendationsByStrategyError: recommendationsByStrategyError,
+        recommendationsByTextError: recommendationsByTextError,
+      },
+    },
   };
 };
