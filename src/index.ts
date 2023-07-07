@@ -19,7 +19,7 @@ import {
   validateUrl,
 } from './utils';
 
-const init = async ({
+const initialize = async ({
   token,
   baseUrl,
   loggingEnabled = false,
@@ -81,7 +81,7 @@ const resetUser = async () => {
 };
 
 export {
-  init,
+  initialize,
   setUser,
   resetUser,
   useEvents,

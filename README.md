@@ -47,13 +47,13 @@ pod install
 You must first initialize with your project token and msd base url. You can get your project token from [project settings](https://msd.com/settings/project).
 
 ```js
-import { init } from 'msd-react-native';
+import { initialize } from 'msd-react-native';
 
 const token = 'YOUR_TOKEN';
 const baseUrl = 'GIVEN_MSD_BASE_URL';
 const loggingEnabled = true; // set it as true if developer wants to see sdk logs
 
-init({ token, baseUrl, loggingEnabled });
+initialize({ token, baseUrl, loggingEnabled });
 
 ```
 Once you've called this method once, you can access all `msd` functions throughout the rest of your application.
@@ -80,7 +80,7 @@ The `discoverEventsResponse` field returned by the `useDiscoverEvents` hook is a
 `isLoading`: A boolean value indicating whether the discover events data is currently being loaded from the API. It will be true while the API call is in progress, and false once the data is fetched or an error occurs.
 `error`: An error object, if any, that occurred during the API call. This property will be null if there are no errors.
 
-You can see the events list in console if you set `loggingEnabled` as `true` in init call.
+You can see the events list in console if you set `loggingEnabled` as `true` in initialize call.
 
 ### 4. Track Event
 
@@ -123,19 +123,19 @@ The SDK automatically includes several properties when tracking events, eliminat
 
 ### 5. Get Recommendations
 
-The getRecommendation function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
+The getRecommendations function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
 
 Let's get started by Recommendation methods. We have a `useRecommendation` hook and it contain three methods for getting `msd` recommendations and one object for getting results.
-They are `getRecommendationByStrategy`, `getRecommendationByModule` and `getRecommendationByPage`.
+They are `getRecommendationsByStrategy`, `getRecommendationsByModule` and `getRecommendationsByPage`.
 Results of these async methods are getting in the `recommendation` object.
 ```js
 
 import { useRecommendations } from 'msd-react-native';
 
 const {
-    getRecommendationByStrategy,
-    getRecommendationByModule,
-    getRecommendationByPage,
+    getRecommendationsByStrategy,
+    getRecommendationsByModule,
+    getRecommendationsByPage,
     recommendations: { data, isLoading, error }
   } = useRecommendations();
 ```
@@ -149,7 +149,7 @@ const requestParamsForPage = {
 };
 const pageReference = 'YOUR_PAGE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationByModule(pageReference, requestParamsForPage, correlationId);
+getRecommendationsByModule(pageReference, requestParamsForPage, correlationId);
 ```
 
 
@@ -162,7 +162,7 @@ const requestParamsForModule = {
 };
 const moduleReference = 'YOUR_MODULE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationByModule(moduleReference, requestParamsForModule, correlationId);
+getRecommendationsByModule(moduleReference, requestParamsForModule, correlationId);
 
 ```
 
@@ -174,7 +174,7 @@ const requestParamsForStrategy = {
 };
 const strategyReference = 'YOUR_STRATEGY_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationByStrategy(strategyReference, requestParamsForStrategy, correlationId);
+getRecommendationsByStrategy(strategyReference, requestParamsForStrategy, correlationId);
 ```
 The `recommendations` field returned by the `useRecommendations` hook is an object containing the following properties:
 
@@ -223,7 +223,7 @@ setUser({ userId })
 
 ### 7. Reset User Profile
 
-The resetUseR function in the SDK allows you to clear the user information and reset the SDK state when the user logs out of your application. This ensures that any user-specific data and tracking are cleared and no longer associated with the user.
+The resetUser function in the SDK allows you to clear the user information and reset the SDK state when the user logs out of your application. This ensures that any user-specific data and tracking are cleared and no longer associated with the user.
 
 ```js
 import { resetUser } from 'msd-react-native';
@@ -248,13 +248,13 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import { init, setUser, useEvents, useRecommendations } from 'react-native-msd';
+import { initialize, setUser, useEvents, useRecommendations } from 'react-native-msd';
 
 function App(): JSX.Element {
   useEffect(() => {
     const token = 'YOUR_TOKEN';
     const baseUrl = 'GIVEN_MSD_BASE_URL';
-    init({token, baseUrl, loggingEnabled: true });
+    initialize({token, baseUrl, loggingEnabled: true });
     setUser({userId: 'YOUR_USER_ID'});
   }, []);
 
@@ -271,9 +271,9 @@ function App(): JSX.Element {
         isRecommendationsByStrategyLoading
       }
     },
-    getRecommendationByStrategy,
-    getRecommendationByModule,
-    getRecommendationByPage,
+    getRecommendationsByStrategy,
+    getRecommendationsByModule,
+    getRecommendationsByPage,
   } = useRecommendations();
 
   const getRecommendations = () => {
@@ -283,7 +283,7 @@ function App(): JSX.Element {
       YOUR_KEY: 'YOUR_VALUE'
     };
     const correlationId = 'YOUR_CORRELATION_ID';
-    getRecommendationByStrategy(strategyName, requestParams, correlationId);
+    getRecommendationsByStrategy(strategyName, requestParams, correlationId);
   };
 
   const { track } = useEvents();

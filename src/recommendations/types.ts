@@ -21,7 +21,7 @@ export enum RecommendationsBaseParams {
   text_name = 'text_name',
 }
 
-export type IGetRecommendationBaseParams =
+export type IGetRecommendationsBaseParams =
   | {
       [RecommendationsBaseParams.strategy_name]: string;
     }

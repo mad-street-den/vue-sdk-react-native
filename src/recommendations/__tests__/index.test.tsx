@@ -16,7 +16,7 @@ describe('useRecommendations', () => {
   const user_id = 'user-id';
 
   it('should fetch recommendations by module successfully', async () => {
-    const mockRecommendationByModuleResponse = {
+    const mockRecommendationsByModuleResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -26,7 +26,7 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      result: mockRecommendationByModuleResponse,
+      result: mockRecommendationsByModuleResponse,
     });
 
     const { result: _result, waitForNextUpdate } = renderHook(() =>
@@ -34,7 +34,7 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      _result.current.getRecommendationByModule(
+      _result.current.getRecommendationsByModule(
         'module_1',
         {
           catalogs: {},
@@ -67,7 +67,7 @@ describe('useRecommendations', () => {
 
     expect(
       _result.current.recommendations.data.recommendationsByModule
-    ).toEqual(mockRecommendationByModuleResponse.data);
+    ).toEqual(mockRecommendationsByModuleResponse.data);
     expect(
       _result.current.recommendations.isLoading.isRecommendationsByModuleLoading
     ).toBe(false);
@@ -104,7 +104,7 @@ describe('useRecommendations', () => {
     ).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByModule(
+      result.current.getRecommendationsByModule(
         'module_1',
         { catalogs: {} },
         ''
@@ -131,7 +131,7 @@ describe('useRecommendations', () => {
   });
 
   it('should fetch recommendations by strategy successfully', async () => {
-    const mockRecommendationByStrategyResponse = {
+    const mockRecommendationsByStrategyResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -141,7 +141,7 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      result: mockRecommendationByStrategyResponse,
+      result: mockRecommendationsByStrategyResponse,
     });
 
     const { result: _result, waitForNextUpdate } = renderHook(() =>
@@ -149,7 +149,7 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      _result.current.getRecommendationByStrategy(
+      _result.current.getRecommendationsByStrategy(
         'strategy_1',
         {
           catalogs: {},
@@ -183,7 +183,7 @@ describe('useRecommendations', () => {
 
     expect(
       _result.current.recommendations.data.recommendationsByStrategy
-    ).toEqual(mockRecommendationByStrategyResponse.data);
+    ).toEqual(mockRecommendationsByStrategyResponse.data);
     expect(
       _result.current.recommendations.isLoading
         .isRecommendationsByStrategyLoading
@@ -222,7 +222,7 @@ describe('useRecommendations', () => {
     ).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByStrategy(
+      result.current.getRecommendationsByStrategy(
         'strategy_1',
         {
           catalogs: {},
@@ -253,7 +253,7 @@ describe('useRecommendations', () => {
   });
 
   it('should fetch recommendations by page successfully', async () => {
-    const mockRecommendationByPageResponse = {
+    const mockRecommendationsByPageResponse = {
       data: ['recommendation1'],
     };
     (getFromStorage as jest.MockedFunction<typeof getFromStorage>)
@@ -263,7 +263,7 @@ describe('useRecommendations', () => {
 
     (apiCall as jest.MockedFunction<typeof apiCall>).mockResolvedValue({
       status: 200,
-      result: mockRecommendationByPageResponse,
+      result: mockRecommendationsByPageResponse,
     });
 
     const { result: _result, waitForNextUpdate } = renderHook(() =>
@@ -271,7 +271,7 @@ describe('useRecommendations', () => {
     );
 
     act(() => {
-      _result.current.getRecommendationByPage(
+      _result.current.getRecommendationsByPage(
         'page_1',
         {
           catalogs: {},
@@ -303,7 +303,7 @@ describe('useRecommendations', () => {
     });
 
     expect(_result.current.recommendations.data.recommendationsByPage).toEqual(
-      mockRecommendationByPageResponse.data
+      mockRecommendationsByPageResponse.data
     );
     expect(
       _result.current.recommendations.isLoading.isRecommendationsByPageLoading
@@ -341,7 +341,7 @@ describe('useRecommendations', () => {
     ).toBeNull();
 
     act(() => {
-      result.current.getRecommendationByPage('page_1', { catalogs: {} }, '');
+      result.current.getRecommendationsByPage('page_1', { catalogs: {} }, '');
     });
 
     expect(

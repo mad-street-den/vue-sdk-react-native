@@ -10,22 +10,22 @@ declare module 'index' {
   };
 
   export const useRecommendations: () => {
-    getRecommendationByStrategy: (
+    getRecommendationsByStrategy: (
       strategyReference: string,
       properties: IGetRecommendationRequest,
       correlationId?: string | null
     ) => Promise<void>;
-    getRecommendationByModule: (
+    getRecommendationsByModule: (
       moduleReference: string,
       properties: IGetRecommendationRequest,
       correlationId?: string | null
     ) => Promise<void>;
-    getRecommendationByPage: (
+    getRecommendationsByPage: (
       pageReference: string,
       properties: IGetRecommendationRequest,
       correlationId?: string | null
     ) => Promise<void>;
-    getRecommendationByText: (
+    getRecommendationsByText: (
       textReference: string,
       properties: IGetRecommendationRequest,
       correlationId?: string | null
@@ -57,7 +57,7 @@ declare module 'index' {
     discoverEventsResponse: object;
   };
 
-  export const init: (options: {
+  export const initialize: (options: {
     token: string;
     baseUrl: string;
     loggingEnabled?: boolean;

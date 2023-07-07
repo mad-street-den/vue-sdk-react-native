@@ -12,7 +12,7 @@ import {
 import { apiCall, ApiMethods, IError } from '../api';
 import {
   IGetRecommendationRequest,
-  IGetRecommendationBaseParams,
+  IGetRecommendationsBaseParams,
   RecommendationsBaseParams,
 } from './types';
 import { getFromStorage } from '../utils';
@@ -70,8 +70,8 @@ export const useRecommendations = () => {
     [RecommendationsBaseParams.text_name]: setRecommendationsByTextError,
   };
 
-  const getRecommendation = async (
-    baseParams: IGetRecommendationBaseParams,
+  const getRecommendations = async (
+    baseParams: IGetRecommendationsBaseParams,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
@@ -148,12 +148,12 @@ export const useRecommendations = () => {
     }
   };
 
-  const getRecommendationByStrategy = async (
+  const getRecommendationsByStrategy = async (
     strategyReference: string,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
-    getRecommendation(
+    getRecommendations(
       {
         [RecommendationsBaseParams.strategy_name]: strategyReference,
       },
@@ -162,12 +162,12 @@ export const useRecommendations = () => {
     );
   };
 
-  const getRecommendationByModule = async (
+  const getRecommendationsByModule = async (
     moduleReference: string,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
-    getRecommendation(
+    getRecommendations(
       {
         [RecommendationsBaseParams.module_name]: moduleReference,
       },
@@ -176,12 +176,12 @@ export const useRecommendations = () => {
     );
   };
 
-  const getRecommendationByPage = async (
+  const getRecommendationsByPage = async (
     pageReference: string,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
-    getRecommendation(
+    getRecommendations(
       {
         [RecommendationsBaseParams.page_name]: pageReference,
       },
@@ -190,14 +190,14 @@ export const useRecommendations = () => {
     );
   };
 
-  const getRecommendationByText = async (
+  const getRecommendationsByText = async (
     textReference: string,
     properties: IGetRecommendationRequest,
     correlationId?: string | null
   ) => {
-    getRecommendation(
+    getRecommendations(
       {
-        [RecommendationsBaseParams.text_name]: textReference,
+        [RecommendationsBaseParams.page_name]: textReference,
       },
       properties,
       correlationId
@@ -205,10 +205,10 @@ export const useRecommendations = () => {
   };
 
   return {
-    getRecommendationByStrategy,
-    getRecommendationByModule,
-    getRecommendationByPage,
-    getRecommendationByText,
+    getRecommendationsByStrategy,
+    getRecommendationsByModule,
+    getRecommendationsByPage,
+    getRecommendationsByText,
     recommendations: {
       data: {
         recommendationsByModule,
