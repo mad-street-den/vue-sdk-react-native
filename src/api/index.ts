@@ -51,6 +51,18 @@ export const apiCall = async ({
         requestParam.body = JSON.stringify(params);
       }
       const baseUrl = await getFromStorage(MSD_BASE_URL);
+      if (!baseUrl) {
+        console.error(
+          `{ status: ${ERROR_CODES.ERR0013.code}, message: ${ERROR_CODES.ERR0013.message} }`
+        );
+        return {
+          status: ERROR_CODES.ERR0013.code,
+          result: {
+            status: ERROR_CODES.ERR0013.code,
+            message: ERROR_CODES.ERR0013.message,
+          },
+        };
+      }
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
       const response = await fetch(`${baseUrl}/${url}`, {

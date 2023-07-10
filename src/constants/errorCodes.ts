@@ -48,4 +48,8 @@ export const ERROR_CODES = {
     message:
       'Our server is currently experiencing issues. Please try again later.',
   },
+  ERR0013: {
+    code: 'ERR0013',
+    message: 'MSD must be initialized before calling the MSD SDK functions.',
+  },
 };
