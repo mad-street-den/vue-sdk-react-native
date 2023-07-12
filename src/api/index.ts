@@ -1,3 +1,4 @@
+import { printAPIRequestResponse } from '../utils/logger';
 import {
   MSD_BASE_URL,
   MSD_API_KEY,
@@ -71,6 +72,13 @@ export const apiCall = async ({
       });
       clearTimeout(id);
       try {
+        const result = await response.json();
+        printAPIRequestResponse({
+          requestParams: { ...requestParam, url: `${baseUrl}/${url}` },
+          response,
+          error: result?.errors,
+          responseData: result?.data,
+        });
         if (response.status >= 500 && response.status <= 599) {
           return {
             status: ERROR_CODES.ERR0012.code,
@@ -80,7 +88,6 @@ export const apiCall = async ({
             },
           };
         }
-        const result = await response.json();
         if (response.status === 200) {
           if (!result || !result.data) {
             return {
