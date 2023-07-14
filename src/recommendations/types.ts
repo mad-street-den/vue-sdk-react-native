@@ -18,7 +18,6 @@ export enum RecommendationsBaseParams {
   strategy_name = 'strategy_name',
   module_name = 'module_name',
   page_name = 'page_name',
-  text_name = 'text_name',
 }
 
 export type IGetRecommendationsBaseParams =
@@ -30,7 +29,4 @@ export type IGetRecommendationsBaseParams =
     }
   | {
       [RecommendationsBaseParams.page_name]: string;
-    }
-  | {
-      [RecommendationsBaseParams.text_name]: string;
     };

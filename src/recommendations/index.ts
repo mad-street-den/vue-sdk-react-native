@@ -25,8 +25,6 @@ export const useRecommendations = () => {
     useState<Array<object> | null>(null);
   const [recommendationsByStrategy, setRecommendationsByStrategy] =
     useState<Array<object> | null>(null);
-  const [recommendationsByText, setRecommendationsByText] =
-    useState<Array<object> | null>(null);
 
   const [recommendationsByModuleLoading, setRecommendationsByModuleLoading] =
     useState(false);
@@ -36,8 +34,6 @@ export const useRecommendations = () => {
     recommendationsByStrategyLoading,
     setRecommendationsByStrategyLoading,
   ] = useState(false);
-  const [recommendationsByTextLoading, setRecommendationsByTextLoading] =
-    useState(false);
 
   const [recommendationsByModuleError, setRecommendationsByModuleError] =
     useState<IError | null>(null);
@@ -45,21 +41,17 @@ export const useRecommendations = () => {
     useState<IError | null>(null);
   const [recommendationsByStrategyError, setRecommendationsByStrategyError] =
     useState<IError | null>(null);
-  const [recommendationsByTextError, setRecommendationsByTextError] =
-    useState<IError | null>(null);
 
   const recommendationsSetterMap = {
     [RecommendationsBaseParams.module_name]: setRecommendationsByModule,
     [RecommendationsBaseParams.page_name]: setRecommendationsByPage,
     [RecommendationsBaseParams.strategy_name]: setRecommendationsByStrategy,
-    [RecommendationsBaseParams.text_name]: setRecommendationsByText,
   };
   const recommendationsLoadingSetterMap = {
     [RecommendationsBaseParams.module_name]: setRecommendationsByModuleLoading,
     [RecommendationsBaseParams.page_name]: setRecommendationsByPageLoading,
     [RecommendationsBaseParams.strategy_name]:
       setRecommendationsByStrategyLoading,
-    [RecommendationsBaseParams.text_name]: setRecommendationsByTextLoading,
   };
 
   const recommendationsErrorSetterMap = {
@@ -67,7 +59,6 @@ export const useRecommendations = () => {
     [RecommendationsBaseParams.page_name]: setRecommendationsByPageError,
     [RecommendationsBaseParams.strategy_name]:
       setRecommendationsByStrategyError,
-    [RecommendationsBaseParams.text_name]: setRecommendationsByTextError,
   };
 
   const getRecommendations = async (
@@ -190,43 +181,25 @@ export const useRecommendations = () => {
     );
   };
 
-  const getRecommendationsByText = async (
-    textReference: string,
-    properties: IGetRecommendationRequest,
-    correlationId?: string | null
-  ) => {
-    getRecommendations(
-      {
-        [RecommendationsBaseParams.page_name]: textReference,
-      },
-      properties,
-      correlationId
-    );
-  };
-
   return {
     getRecommendationsByStrategy,
     getRecommendationsByModule,
     getRecommendationsByPage,
-    getRecommendationsByText,
     recommendations: {
       data: {
         recommendationsByModule,
         recommendationsByPage,
         recommendationsByStrategy,
-        recommendationsByText,
       },
       isLoading: {
         isRecommendationsByModuleLoading: recommendationsByModuleLoading,
         isRecommendationsByPageLoading: recommendationsByPageLoading,
         isRecommendationsByStrategyLoading: recommendationsByStrategyLoading,
-        isRecommendationsByTextLoading: recommendationsByTextLoading,
       },
       error: {
         recommendationsByModuleError: recommendationsByModuleError,
         recommendationsByPageError: recommendationsByPageError,
         recommendationsByStrategyError: recommendationsByStrategyError,
-        recommendationsByTextError: recommendationsByTextError,
       },
     },
   };

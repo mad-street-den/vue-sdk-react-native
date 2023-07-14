@@ -182,19 +182,16 @@ The `recommendations` field returned by the `useRecommendations` hook is an obje
 * `recommendationsByModule`: An array of recommendations specific to modules.
 * `recommendationsByPage`: An array of recommendations specific to pages.
 * `recommendationsByStrategy`: An array of recommendations specific to strategies.
-* `recommendationsByText`: An array of recommendations based on text.
 
 `isLoading`: An object representing the loading states for different recommendations. It includes the following properties:
 * `isRecommendationsByModuleLoading`: A boolean value indicating whether the recommendations by module are currently being loaded.
 * `isRecommendationsByPageLoading`: A boolean value indicating whether the recommendations by page are currently being loaded.
 * `isRecommendationsByStrategyLoading`: A boolean value indicating whether the recommendations by strategy are currently being loaded.
-* `isRecommendationsByTextLoading`: A boolean value indicating whether the recommendations by text are currently being loaded.
 
 `error`: An object representing the errors that occurred during the API calls for different recommendations. It includes the following properties:
 * `recommendationsByModuleError`: An error object, if any, that occurred while fetching recommendations by module.
 * `recommendationsByPageError`: An error object, if any, that occurred while fetching recommendations by page.
 * `recommendationsByStrategyError`: An error object, if any, that occurred while fetching recommendations by strategy.
-* `recommendationsByTextError`: An error object, if any, that occurred while fetching recommendations by text.
 
 The SDK automatically includes several properties when tracking events, eliminating the need for users to manually add them. Here are some of the properties that are automatically added by the SDK:
 

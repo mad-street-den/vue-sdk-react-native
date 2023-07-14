@@ -25,29 +25,21 @@ declare module 'index' {
       properties: IGetRecommendationRequest,
       correlationId?: string | null
     ) => Promise<void>;
-    getRecommendationsByText: (
-      textReference: string,
-      properties: IGetRecommendationRequest,
-      correlationId?: string | null
-    ) => Promise<void>;
     recommendations: {
       data: {
         recommendationsByModule: Array<object>;
         recommendationsByPage: Array<object>;
         recommendationsByStrategy: Array<object>;
-        recommendationsByText: Array<object>;
       };
       isLoading: {
         isRecommendationsByModuleLoading: boolean;
         isRecommendationsByPageLoading: boolean;
         isRecommendationsByStrategyLoading: boolean;
-        isRecommendationsByTextLoading: boolean;
       };
       error: {
         recommendationsByModuleError: object | null;
         recommendationsByPageError: object | null;
         recommendationsByStrategyError: object | null;
-        recommendationsByTextError: object | null;
       };
     };
   };
