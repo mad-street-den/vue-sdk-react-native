@@ -1,7 +1,7 @@
 {
   "name": "vue-sdk-react-native",
   "version": "1.0.0",
-  "description": "Project MSD",
+  "description": "VueSDK is a library/SDK providing all the functions and utilities required to help you build and integrate all the recommendations and search offered by Vue.AI.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",

@@ -1,13 +1,13 @@
 <p align="center">
-  <img src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/v1441713939/o8bplvbhmr2jzkhynltt.png" alt="MSD Swift Library"/>
+  <img src="https://vue.ai/images/logo/vue-logo-light.svg" alt="Vue React Native Library"/>
 </p>
 
 # Table of Contents
 <!-- MarkdownTOC -->
 - [Overview](#overview)
 - [Quick Start Guide](#quick-start-guide)
-    - [Install MSD](#1-install-msd)
-    - [Initialize MSD](#2-initialize-msd)
+    - [Install Vue SDK](#1-install-vue-sdk)
+    - [Initialize Vue SDK](#2-initialize-vue-sdk)
     - [Discover Events](#3-discover-events)
     - [Track Event](#4-track-event)
     - [Get Recommendations](#5-get-recommendations)
@@ -23,19 +23,19 @@
 <a name="introduction"></a>
 ## Overview
 
-Welcome to the official MSD React Native Library
+VueSDK is a library/SDK providing all the functions and utilities required to help you build and integrate all the recommendations and search offered by Vue.AI. To know about the detailed set of use cases available - please [visit this link](https://support.vue.ai/docs/DXM%20Hub/Strategy).
 
 ## Quick Start Guide
 
-### 1. Install MSD
+### 1. Install Vue SDK
 You will need your project token for initializing your library. You can get your project token from [project settings](https://www.madstreetden.com/contact-us/).
 
 #### Prerequisites
 - React Native v0.6+
 #### Steps
-1. Under your app's root directory, install MSD React Native SDK. 
+1. Under your app's root directory, install vue-sdk-react-native. 
 ```
-npm install msd-react-native
+npm install vue-sdk-react-native
 ```
 2. Under your application's ios folder, run
 ```
@@ -43,20 +43,20 @@ pod install
 ``` 
 
 
-### 2. Initialize MSD
-You must first initialize with your project token and msd base url. You can get your project token from [project settings](https://msd.com/settings/project).
+### 2. Initialize Vue Sdk
+You must first initialize with your project token and Vue Sdk base url. You can get your project token from [project settings](https://support.getblox.ai/docs/cli).
 
 ```js
-import { initialize } from 'msd-react-native';
+import { initialize } from 'vue-sdk-react-native';
 
 const token = 'YOUR_TOKEN';
-const baseUrl = 'GIVEN_MSD_BASE_URL';
+const baseUrl = 'GIVEN_VUE_SDK_BASE_URL';
 const loggingEnabled = true; // set it as true if developer wants to see sdk logs
 
 initialize({ token, baseUrl, loggingEnabled });
 
 ```
-Once you've called this method once, you can access all `msd` functions throughout the rest of your application.
+Once you've called this method once, you can access all `Vue SDK` functions throughout the rest of your application.
 
 
 ### 3. Discover Events
@@ -64,7 +64,7 @@ Once you've called this method once, you can access all `msd` functions througho
 To ensure accurate and comprehensive event tracking, it is recommended to call the discoverEvents function before invoking the track function in your SDK integration. The discoverEvents function retrieves the essential information related to track events, such as event names, properties, and default properties. This step allows you to populate the necessary data and configure the event tracking accordingly.
 ```js
 
-import { useDiscoverEvents } from 'msd-react-native';
+import { useDiscoverEvents } from 'vue-sdk-react-native';
 
 const {
   discoverEvents,
@@ -91,7 +91,7 @@ You can send an event from anywhere in your application. `useEvents` hook contai
 
 ```js
 
-import { useEvents } from 'msd-react-native';
+import { useEvents } from 'vue-sdk-react-native';
 
 // track event function 
 const { track } = useEvents();
@@ -125,12 +125,12 @@ The SDK automatically includes several properties when tracking events, eliminat
 
 The getRecommendations function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
 
-Let's get started by Recommendation methods. We have a `useRecommendation` hook and it contain three methods for getting `msd` recommendations and one object for getting results.
+Let's get started by Recommendation methods. We have a `useRecommendation` hook and it contain three methods for getting `Vue SDK` recommendations and one object for getting results.
 They are `getRecommendationsByStrategy`, `getRecommendationsByModule` and `getRecommendationsByPage`.
 Results of these async methods are getting in the `recommendation` object.
 ```js
 
-import { useRecommendations } from 'msd-react-native';
+import { useRecommendations } from 'vue-sdk-react-native';
 
 const {
     getRecommendationsByStrategy,
@@ -212,7 +212,7 @@ The SDK automatically includes several properties when tracking events, eliminat
 The setUser function in the SDK allows you to associate a user ID with subsequent API calls after the user has logged in. This user ID is used to track user-specific events and behaviors, providing personalized experiences and accurate analytics.
 
 ```js
-import { setUser } from 'msd-react-native';
+import { setUser } from 'vue-sdk-react-native';
 
 const userId = 'YOUR_USER_ID';
 setUser({ userId })
@@ -223,7 +223,7 @@ setUser({ userId })
 The resetUser function in the SDK allows you to clear the user information and reset the SDK state when the user logs out of your application. This ensures that any user-specific data and tracking are cleared and no longer associated with the user.
 
 ```js
-import { resetUser } from 'msd-react-native';
+import { resetUser } from 'vue-sdk-react-native';
 
 resetUser()
 
@@ -250,7 +250,7 @@ import { initialize, setUser, useEvents, useRecommendations } from 'vue-sdk-reac
 function App(): JSX.Element {
   useEffect(() => {
     const token = 'YOUR_TOKEN';
-    const baseUrl = 'GIVEN_MSD_BASE_URL';
+    const baseUrl = 'GIVEN_VUE_SDK_BASE_URL';
     initialize({token, baseUrl, loggingEnabled: true });
     setUser({userId: 'YOUR_USER_ID'});
   }, []);
@@ -395,4 +395,4 @@ export default App;
 No worries, here are some links that you will find useful:
 * **[Advanced React Native Guide](https://reactnative.dev/docs/environment-setup)**
 
-Have any questions? Reach out to MSD [Support](https://www.madstreetden.com/contact-us/) to speak to someone smart, quickly.
+Have any questions? Reach out to SDK [Support](https://support.getblox.ai/docs/cli) to speak to someone smart, quickly.

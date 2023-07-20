@@ -50,6 +50,7 @@ export const ERROR_CODES = {
   },
   ERR0013: {
     code: 'ERR0013',
-    message: 'MSD must be initialized before calling the MSD SDK functions.',
+    message:
+      'Vue SDK must be initialized before calling the Vue SDK functions.',
   },
 };
