@@ -1,6 +1,6 @@
 {
-  "name": "react-native-msd",
-  "version": "1.0.1",
+  "name": "vue-sdk-react-native",
+  "version": "1.0.0",
   "description": "Project MSD",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -38,13 +38,13 @@
     "ios",
     "android"
   ],
-  "repository": "",
-  "author": "",
-  "license": "MIT",
+  "repository": "https://github.com/mad-street-den/vue-sdk-react-native",
+  "author": "Mad Street Den Inc. <developers@madstreetden.com>",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/mad-street-den/vue-sdk-react-native/issues"
   },
-  "homepage": "https://github.com/msd/react-native-msd.git",
+  "homepage": "https://github.com/mad-street-den/vue-sdk-react-native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

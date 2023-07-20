@@ -245,7 +245,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import { initialize, setUser, useEvents, useRecommendations } from 'react-native-msd';
+import { initialize, setUser, useEvents, useRecommendations } from 'vue-sdk-react-native';
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -393,7 +393,6 @@ export default App;
 ### I want to know more!
 
 No worries, here are some links that you will find useful:
-* **[Advanced React Native Guide](https://www.madstreetden.com/industry-solutions/)**
-* **[Sample app](https://github.com/abhay-keyvalue/MSD-sample-app)**
+* **[Advanced React Native Guide](https://reactnative.dev/docs/environment-setup)**
 
 Have any questions? Reach out to MSD [Support](https://www.madstreetden.com/contact-us/) to speak to someone smart, quickly.
