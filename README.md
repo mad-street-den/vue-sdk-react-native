@@ -77,7 +77,9 @@ discoverEvents();
 The `discoverEventsResponse` field returned by the `useDiscoverEvents` hook is an object containing the following properties:
 
 `data`: The discover events data returned by the API. This property will be null initially and will be updated once the API call is completed successfully.
+
 `isLoading`: A boolean value indicating whether the discover events data is currently being loaded from the API. It will be true while the API call is in progress, and false once the data is fetched or an error occurs.
+
 `error`: An error object, if any, that occurred during the API call. This property will be null if there are no errors.
 
 You can see the events list in console if you set `loggingEnabled` as `true` in initialize call.
