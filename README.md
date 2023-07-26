@@ -12,7 +12,7 @@
     - [Track Event](#4-track-event)
     - [Get Recommendations](#5-get-recommendations)
     - [Set User](#6-set-user)
-    - [Reset User Profile](#7-reset-user-profile)
+    - [Reset User](#7-reset-user-profile)
     - [Complete Code Example](#complete-code-example)
 - [FAQ](#faq)
 - [I want to know more!](#i-want-to-know-more)
@@ -43,8 +43,8 @@ pod install
 ``` 
 
 
-### 2. Initialize Vue Sdk
-You must first initialize with your project token and Vue Sdk base url. You can get your project token from [project settings](https://support.getblox.ai/docs/cli).
+### 2. Initialize Vue SDK
+You must first initialize with your project token and Vue SDK base url. You can get your project token from [project settings](https://support.getblox.ai/docs/cli).
 
 ```js
 import { initialize } from 'vue-sdk-react-native';
@@ -71,7 +71,7 @@ const {
   discoverEventsResponse: { data, isLoading, error }
 } = useDiscoverEvents();
 
-// Discover method
+// Discover events method
 discoverEvents();
 ```
 The `discoverEventsResponse` field returned by the `useDiscoverEvents` hook is an object containing the following properties:
@@ -95,7 +95,7 @@ You can send an event from anywhere in your application. `useEvents` hook contai
 
 import { useEvents } from 'vue-sdk-react-native';
 
-// track event function 
+// Track event method 
 const { track } = useEvents();
 const eventName = 'YOUR_CUSTOM_EVENT_NAME';
 const requestParams = {
@@ -103,7 +103,7 @@ const requestParams = {
   YOUR_KEY: 'YOUR_VALUE'
 };
 const correlationId = 'YOUR_CORRELATION_ID';
-track(eventName, requestParams, correlationId)
+track(eventName, requestParams, correlationId);
 
 ```
 
@@ -127,9 +127,9 @@ The SDK automatically includes several properties when tracking events, eliminat
 
 The getRecommendations function in the SDK allows you to retrieve recommendations based on specific search criteria and properties. This function provides a convenient way to fetch recommendations and receive the results asynchronously.
 
-Let's get started by Recommendation methods. We have a `useRecommendation` hook and it contain three methods for getting `Vue SDK` recommendations and one object for getting results.
+Let's get started by Recommendation methods. We have a `useRecommendations` hook and it contain three methods for getting `Vue SDK` recommendations and one object for getting results.
 They are `getRecommendationsByStrategy`, `getRecommendationsByModule` and `getRecommendationsByPage`.
-Results of these async methods are getting in the `recommendation` object.
+Results of these async methods are getting in the `recommendations` object.
 ```js
 
 import { useRecommendations } from 'vue-sdk-react-native';
@@ -204,6 +204,7 @@ The SDK automatically includes several properties when tracking events, eliminat
 | blox_uuid     | Device UUID generated                  | 5fbeac07-f385-4145-a690-e98571ae985e
 | platform      | Platform of the user                   | ios
 | medium        | Medium from where requests are sent    | application
+| referrer      | same values as platform for mobile app | android or ios
 | user_id       | user id passed while calling setUser   | 81bf1152-ce89-4954-b38e-f81875258f6e
 | url           | Bundle id of the application           | com.example.myapp
 
@@ -217,7 +218,7 @@ The setUser function in the SDK allows you to associate a user ID with subsequen
 import { setUser } from 'vue-sdk-react-native';
 
 const userId = 'YOUR_USER_ID';
-setUser({ userId })
+setUser({ userId });
 ```
 
 ### 7. Reset User Profile
@@ -227,7 +228,7 @@ The resetUser function in the SDK allows you to clear the user information and r
 ```js
 import { resetUser } from 'vue-sdk-react-native';
 
-resetUser()
+resetUser();
 
 ```
 ### Complete Code Example
