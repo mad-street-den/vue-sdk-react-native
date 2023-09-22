@@ -15,12 +15,14 @@ import {
 import { logger, getFromStorage, constructDiscoverEventsMap } from '../utils';
 import { ApiMethods, apiCall } from '../api';
 import { getBundleId } from '../native-bridge';
+import { VueSDKConfig } from '../recommendations/types';
 
 export const useEvents = () => {
   const track = async (
     eventName: string,
     params: object = {},
-    correlationId?: string | null
+    correlationId?: string | null,
+    vueSdkConfig?: VueSDKConfig
   ) => {
     let configMapResponse = await getFromStorage(DISCOVER_EVENTS_MAP);
     let discoverEventsMap: Record<string, any> = {};
@@ -60,14 +62,14 @@ export const useEvents = () => {
         > = {
           blox_uuid: await getFromStorage(MAD_UUID),
           user_id: await getFromStorage(MSD_USER_ID),
-          platform: Platform.OS,
-          url: bundleId,
-          medium: SDK_MEDIUM,
-          referrer: Platform.OS,
+          platform: vueSdkConfig?.platform ?? Platform.OS,
+          url: vueSdkConfig?.url ?? bundleId,
+          medium: vueSdkConfig?.medium ?? SDK_MEDIUM,
+          referrer: vueSdkConfig?.referrer ?? Platform.OS,
         };
         getTrackApiBasicParams().forEach((key) => {
           const value = trackApiBasicParamValueMap[key as TrackApiBasicParams];
-          if (value) {
+          if (value !== undefined || value !== null) {
             eventApiBasicParamsMap[configMapForEvent?.[key] ?? key] = value;
           }
         });
