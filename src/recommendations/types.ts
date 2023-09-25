@@ -30,3 +30,10 @@ export type IGetRecommendationsBaseParams =
   | {
       [RecommendationsBaseParams.page_name]: string;
     };
+
+export type VueSDKConfig = {
+  medium?: string;
+  url?: string;
+  platform?: string;
+  referrer?: string;
+};

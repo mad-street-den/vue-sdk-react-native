@@ -53,4 +53,8 @@ export const ERROR_CODES = {
     message:
       'Vue SDK must be initialized before calling the Vue SDK functions.',
   },
+  ERR0014: {
+    code: 'ERR0014',
+    message: 'Blox UUID is not specified',
+  },
 };
