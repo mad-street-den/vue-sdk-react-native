@@ -14,6 +14,7 @@ import {
   IGetRecommendationRequest,
   IGetRecommendationsBaseParams,
   RecommendationsBaseParams,
+  VueSDKConfig,
 } from './types';
 import { getFromStorage } from '../utils';
 import { getBundleId } from '../native-bridge';
@@ -64,7 +65,8 @@ export const useRecommendations = () => {
   const getRecommendations = async (
     baseParams: IGetRecommendationsBaseParams,
     properties: IGetRecommendationRequest,
-    correlationId?: string | null
+    correlationId?: string | null,
+    vueSdkConfig?: VueSDKConfig
   ) => {
     const baseParamKey = Object.keys(baseParams)[0];
     // recommendationsData Setter
@@ -85,10 +87,10 @@ export const useRecommendations = () => {
       const params = {
         blox_uuid: await getFromStorage(MAD_UUID),
         ...(userId ? { user_id: userId } : {}),
-        platform: Platform.OS,
-        url: bundleId,
-        medium: SDK_MEDIUM,
-        referrer: Platform.OS,
+        platform: vueSdkConfig?.platform ?? Platform.OS,
+        url: vueSdkConfig?.url ?? bundleId,
+        medium: vueSdkConfig?.medium ?? SDK_MEDIUM,
+        referrer: vueSdkConfig?.referrer ?? Platform.OS,
         ...baseParams,
         ...properties,
       };
@@ -142,42 +144,48 @@ export const useRecommendations = () => {
   const getRecommendationsByStrategy = async (
     strategyReference: string,
     properties: IGetRecommendationRequest,
-    correlationId?: string | null
+    correlationId?: string | null,
+    vueSdkConfig?: VueSDKConfig
   ) => {
     getRecommendations(
       {
         [RecommendationsBaseParams.strategy_name]: strategyReference,
       },
       properties,
-      correlationId
+      correlationId,
+      vueSdkConfig
     );
   };
 
   const getRecommendationsByModule = async (
     moduleReference: string,
     properties: IGetRecommendationRequest,
-    correlationId?: string | null
+    correlationId?: string | null,
+    vueSdkConfig?: VueSDKConfig
   ) => {
     getRecommendations(
       {
         [RecommendationsBaseParams.module_name]: moduleReference,
       },
       properties,
-      correlationId
+      correlationId,
+      vueSdkConfig
     );
   };
 
   const getRecommendationsByPage = async (
     pageReference: string,
     properties: IGetRecommendationRequest,
-    correlationId?: string | null
+    correlationId?: string | null,
+    vueSdkConfig?: VueSDKConfig
   ) => {
     getRecommendations(
       {
         [RecommendationsBaseParams.page_name]: pageReference,
       },
       properties,
-      correlationId
+      correlationId,
+      vueSdkConfig
     );
   };
 

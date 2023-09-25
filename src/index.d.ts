@@ -1,4 +1,7 @@
-import type { IGetRecommendationRequest } from './recommendations/types.ts';
+import type {
+  IGetRecommendationRequest,
+  VueSDKConfig,
+} from './recommendations/types.ts';
 
 declare module 'index' {
   export const useEvents: () => {
@@ -13,17 +16,20 @@ declare module 'index' {
     getRecommendationsByStrategy: (
       strategyReference: string,
       properties: IGetRecommendationRequest,
-      correlationId?: string | null
+      correlationId?: string | null,
+      vueSdkConfig?: VueSDKConfig
     ) => Promise<void>;
     getRecommendationsByModule: (
       moduleReference: string,
       properties: IGetRecommendationRequest,
-      correlationId?: string | null
+      correlationId?: string | null,
+      vueSdkConfig?: VueSDKConfig
     ) => Promise<void>;
     getRecommendationsByPage: (
       pageReference: string,
       properties: IGetRecommendationRequest,
-      correlationId?: string | null
+      correlationId?: string | null,
+      vueSdkConfig?: VueSDKConfig
     ) => Promise<void>;
     recommendations: {
       data: {

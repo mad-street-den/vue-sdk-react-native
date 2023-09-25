@@ -13,6 +13,8 @@
     - [Get Recommendations](#5-get-recommendations)
     - [Set User](#6-set-user)
     - [Reset User](#7-reset-user-profile)
+    - [Set BloxUUID](#8-set-bloxuuid)
+    - [Get BloxUUID](#9-get-bloxuuid)
     - [Complete Code Example](#complete-code-example)
 - [FAQ](#faq)
 - [I want to know more!](#i-want-to-know-more)
@@ -102,22 +104,26 @@ const requestParams = {
 // Your request params
   YOUR_KEY: 'YOUR_VALUE'
 };
+const sdkConfig = {
+  platform: 'PLATFORM_VALUE',
+  referrer: 'REFERRER_VALUE',
+  url: 'URL_VALUE',
+  medium: 'MEDIUM_VALUE'
+};
 const correlationId = 'YOUR_CORRELATION_ID';
-track(eventName, requestParams, correlationId);
+track(eventName, requestParams, correlationId, sdkConfig);
 
 ```
 
-The SDK automatically includes several properties when tracking events, eliminating the need for users to manually add them. These properties are essential for comprehensive event tracking and provide valuable insights into user interactions. Here are some of the properties that are automatically added by the SDK:
+The SDK automatically includes several properties when tracking events. These properties are essential for comprehensive event tracking and provide valuable insights into user interactions. Here are some of the properties that are automatically added by the SDK. By explicitly providing the SDK config parameter for the track function, the user can override the following values:
 
 <!-- TABLE_GENERATE_START -->
 
 | key           | Description                            | Example Value
 | ------------- | -------------------------------------  | ---------------------------- |
-| blox_uuid     | Device UUID generated                  | 5fbeac07-f385-4145-a690-e98571ae985e
 | platform      | Platform of the user                   | android or ios
 | medium        | Medium from where requests are sent    | application
 | referrer      | same values as platform for mobile app | android or ios
-| user_id       | user id passed while calling setUser   | 81bf1152-ce89-4954-b38e-f81875258f6e
 | url           | Bundle id of the application           | com.example.myapp
 
 <!-- TABLE_GENERATE_END -->
@@ -151,7 +157,18 @@ const requestParamsForPage = {
 };
 const pageReference = 'YOUR_PAGE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationsByModule(pageReference, requestParamsForPage, correlationId);
+const sdkConfig = {
+  platform: 'PLATFORM_VALUE',
+  referrer: 'REFERRER_VALUE',
+  url: 'URL_VALUE',
+  medium: 'MEDIUM_VALUE'
+};
+getRecommendationsByModule(
+  pageReference,
+  requestParamsForPage,
+  correlationId,
+  sdkConfig
+);
 ```
 
 
@@ -164,7 +181,18 @@ const requestParamsForModule = {
 };
 const moduleReference = 'YOUR_MODULE_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationsByModule(moduleReference, requestParamsForModule, correlationId);
+const sdkConfig = {
+  platform: 'PLATFORM_VALUE',
+  referrer: 'REFERRER_VALUE',
+  url: 'URL_VALUE',
+  medium: 'MEDIUM_VALUE'
+};
+getRecommendationsByModule(
+  moduleReference,
+  requestParamsForModule,
+  correlationId,
+  sdkConfig
+);
 
 ```
 
@@ -176,7 +204,18 @@ const requestParamsForStrategy = {
 };
 const strategyReference = 'YOUR_STRATEGY_NAME';
 const correlationId = 'YOUR_CORRELATION_ID';
-getRecommendationsByStrategy(strategyReference, requestParamsForStrategy, correlationId);
+const sdkConfig = {
+  platform: 'PLATFORM_VALUE',
+  referrer: 'REFERRER_VALUE',
+  url: 'URL_VALUE',
+  medium: 'MEDIUM_VALUE'
+};
+getRecommendationsByStrategy(
+  strategyReference,
+  requestParamsForStrategy,
+  correlationId,
+  sdkConfig
+);
 ```
 The `recommendations` field returned by the `useRecommendations` hook is an object containing the following properties:
 
@@ -195,17 +234,15 @@ The `recommendations` field returned by the `useRecommendations` hook is an obje
 * `recommendationsByPageError`: An error object, if any, that occurred while fetching recommendations by page.
 * `recommendationsByStrategyError`: An error object, if any, that occurred while fetching recommendations by strategy.
 
-The SDK automatically includes several properties when tracking events, eliminating the need for users to manually add them. Here are some of the properties that are automatically added by the SDK:
+The SDK automatically includes several properties when tracking events. Here are some of the properties that are automatically added by the SDK. By explicitly providing the SDK config parameter for the getRecommendations function, the user can override the following values:
 
 <!-- TABLE_GENERATE_START -->
 
 | key           | Description                            | Example Value
 | ------------- | -------------------------------------  | ---------------------------- |
-| blox_uuid     | Device UUID generated                  | 5fbeac07-f385-4145-a690-e98571ae985e
 | platform      | Platform of the user                   | ios
 | medium        | Medium from where requests are sent    | application
 | referrer      | same values as platform for mobile app | android or ios
-| user_id       | user id passed while calling setUser   | 81bf1152-ce89-4954-b38e-f81875258f6e
 | url           | Bundle id of the application           | com.example.myapp
 
 <!-- TABLE_GENERATE_END -->
@@ -229,7 +266,28 @@ The resetUser function in the SDK allows you to clear the user information and r
 import { resetUser } from 'vue-sdk-react-native';
 
 resetUser();
+```
 
+### 8. Set BloxUUID
+
+The `setBloxUUID` function in the SDK allows you to set the blox UUID which is passed as argument for the getRecommendations and track functions. In the case where you do not set bloxUUID, the SDK internally generates a random UUID upon an SDK function call and will maintain the same value till `setBloxUUID` is called.
+
+```js
+import { setBloxUUID } from 'vue-sdk-react-native';
+
+const BLOX_UUID = 'SAMPLE_BLOX_UUID';
+
+await setBloxUUID(BLOX_UUID);
+```
+### 9. Get BloxUUID
+
+The `getBloxUUID` function in the SDK returns the blox UUID configured in the SDK.
+
+```js
+import { getBloxUUID } from 'vue-sdk-react-native';
+
+const bloxUuid = await getBloxUUID();
+console.log('Blox UUID:', bloxUuid);
 ```
 ### Complete Code Example
 Here's a runnable code example that covers everything in this quickstart guide.
@@ -248,13 +306,20 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import { initialize, setUser, useEvents, useRecommendations } from 'vue-sdk-react-native';
+import {
+  initialize,
+  setUser,
+  useEvents,
+  useRecommendations,
+  getBloxUUID,
+  setBloxUUID
+} from 'vue-sdk-react-native';
 
 function App(): JSX.Element {
   useEffect(() => {
     const token = 'YOUR_TOKEN';
     const baseUrl = 'GIVEN_VUE_SDK_BASE_URL';
-    initialize({token, baseUrl, loggingEnabled: true });
+    initialize({token, baseUrl, loggingEnabled: true});
     setUser({userId: 'YOUR_USER_ID'});
   }, []);
 
@@ -283,7 +348,18 @@ function App(): JSX.Element {
       YOUR_KEY: 'YOUR_VALUE'
     };
     const correlationId = 'YOUR_CORRELATION_ID';
-    getRecommendationsByStrategy(strategyName, requestParams, correlationId);
+    const sdkConfig = {
+      platform: 'PLATFORM_VALUE',
+      referrer: 'REFERRER_VALUE',
+      url: 'URL_VALUE',
+      medium: 'MEDIUM_VALUE'
+    };
+    getRecommendationsByStrategy(
+      strategyName,
+      requestParams,
+      correlationId,
+      sdkConfig
+    );
   };
 
   const { track } = useEvents();
@@ -295,7 +371,23 @@ function App(): JSX.Element {
       YOUR_KEY: 'YOUR_VALUE',
     };
     const correlationId = 'YOUR_CORRELATION_ID';
-    track(eventName, requestParams, correlationId);
+    const sdkConfig = {
+      platform: 'PLATFORM_VALUE',
+      referrer: 'REFERRER_VALUE',
+      url: 'URL_VALUE',
+      medium: 'MEDIUM_VALUE'
+    };
+    track(eventName, requestParams, correlationId, sdkConfig);
+  };
+
+  const getBloxUuid = async () => {
+    const bloxUuid = await getBloxUUID();
+    console.log('Blox UUID:', bloxUuid);
+  };
+
+  const setBloxUuid = async () => {
+    const sampleBloxUuid = 'SAMPLE_BLOX_UUID';
+    await setBloxUUID(sampleBloxUuid);
   };
 
   const renderRecommendationsByStrategy = () => {
@@ -342,6 +434,8 @@ function App(): JSX.Element {
             title="Get Recommendations By Strategy"
           />
           <Button color="blue" onPress={trackEvent} title="Log Event" />
+          <Button color="blue" onPress={getBloxUuid} title="Get blox uuid" />
+          <Button color="blue" onPress={setBloxUuid} title="Set blox uuid" />
           {renderRecommendationsByStrategy()}
         </View>
       </ScrollView>
