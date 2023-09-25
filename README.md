@@ -394,18 +394,18 @@ function App(): JSX.Element {
     return (
       <ScrollView horizontal>
         {recommendationsByStrategy?.[0]?.data?.map((item: any) => (
-          <View key={item?.title} style={styles.productCard}>
+          <View key={item?.Title} style={styles.productCard}>
             <View>
               <Image
                 style={styles.productImage}
-                source={{uri: item.image_link}}
+                source={{uri: item['Image Src']}}
               />
             </View>
             <View>
               <Text numberOfLines={2} style={styles.productCardTitle}>
-                {item?.title}
+                {item?.Title}
               </Text>
-              <Text style={styles.productPrice}>{`${item?.price}$`}</Text>
+              <Text style={styles.productPrice}>{`${item['Variant Price']}$`}</Text>
             </View>
           </View>
         ))}
