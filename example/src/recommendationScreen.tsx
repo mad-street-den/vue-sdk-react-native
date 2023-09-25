@@ -24,10 +24,10 @@ const RecommendationScreen = () => {
   const getRecommendationsPage = () => {
     const requestParams = {
       catalogs: {
-        '3089e3d3ba': {
-          fields: ['title', 'price', 'image_link', 'link'],
+        '9e3fd2f248': {
+          fields: ['Title', 'Variant Price', 'Image Src', 'Vendor', 'Handle'],
           context: {
-            variant_id: '39596296700022',
+            Handle: 'wots9999',
           },
         },
       },
@@ -37,35 +37,35 @@ const RecommendationScreen = () => {
 
   const getRecommendationsModule = () => {
     const requestParams = {
+      max_content: 4,
+      min_content: 2,
       catalogs: {
-        '427e26dbfa': {
-          fields: ['title', 'price', 'image_link', 'link'],
+        '9e3fd2f248': {
+          fields: ['Title', 'Variant Price', 'Image Src', 'Vendor', 'Handle'],
           context: {
-            variant_id: '39596296700022',
+            Handle: 'wots9999',
           },
         },
       },
     };
-    getRecommendationsByModule(
-      'Similar Products Module - 27 June',
-      requestParams,
-      pageCorrelationId,
-    );
+    getRecommendationsByModule('SP Aug 1st', requestParams, pageCorrelationId);
   };
 
   const getRecommendationsStrategy = () => {
     const requestParams = {
+      max_content: 4,
+      min_content: 2,
       catalogs: {
-        '427e26dbfa': {
-          fields: ['title', 'price', 'image_link', 'link'],
+        '9e3fd2f248': {
+          fields: ['Title', 'Variant Price', 'Image Src', 'Vendor', 'Handle'],
           context: {
-            variant_id: '39596296700022',
+            Handle: 'wots9999',
           },
         },
       },
     };
     getRecommendationsByStrategy(
-      'Similar Products - 27June',
+      'SP Aug 1st',
       requestParams,
       pageCorrelationId,
     );
@@ -81,14 +81,17 @@ const RecommendationScreen = () => {
                 <View>
                   <Image
                     style={styles.productImage}
-                    source={{uri: item.image_link}}
+                    source={{uri: item['Image Src']}}
                   />
                 </View>
                 <View>
                   <Text numberOfLines={2} style={styles.productCardTitle}>
-                    {item?.title}
+                    {item?.Title}
                   </Text>
-                  <Text style={styles.productPrice}>{`${item?.price}$`}</Text>
+                  <Text
+                    style={
+                      styles.productPrice
+                    }>{`${item['Variant Price']}$`}</Text>
                 </View>
               </View>
             ))}
