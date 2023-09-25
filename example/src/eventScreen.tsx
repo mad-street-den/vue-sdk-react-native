@@ -14,10 +14,10 @@ const EventScreen = () => {
   };
 
   const trackPageView = () => {
-    track('PageView', {
+    track('pageView', {
       page_type: 'pdp',
       page_name: 'PDP',
-      source_prodid: '39596296700022',
+      source_prodid: 'wots9999',
     },
     pageCorrelationId );
   };
