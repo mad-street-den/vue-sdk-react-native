@@ -234,7 +234,7 @@ The `recommendations` field returned by the `useRecommendations` hook is an obje
 * `recommendationsByPageError`: An error object, if any, that occurred while fetching recommendations by page.
 * `recommendationsByStrategyError`: An error object, if any, that occurred while fetching recommendations by strategy.
 
-The SDK automatically includes several properties when tracking events. Here are some of the properties that are automatically added by the SDK. By explicitly providing the SDK config parameter for the getRecommendations function, the user can override the following values:
+Here are some of the properties that are automatically added by the SDK. By explicitly providing the SDK config parameter for the getRecommendations function, the user can override the following values:
 
 <!-- TABLE_GENERATE_START -->
 
