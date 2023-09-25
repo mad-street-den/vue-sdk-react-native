@@ -6,6 +6,7 @@ import {
   MSD_USER_ID,
   MSD_IS_LOG_ENABLED,
   MSD_DISCOVER_EVENTS_ENDPOINT,
+  MAD_UUID,
 } from './constants';
 import { useDiscoverEvents } from './discover';
 import { EventData } from './discover/types';
@@ -17,6 +18,7 @@ import {
   generateAndSaveMadId,
   saveToStorage,
   validateUrl,
+  getFromStorage,
 } from './utils';
 
 const initialize = async ({
@@ -80,8 +82,31 @@ const resetUser = async () => {
   await saveToStorage(MSD_USER_ID, '');
 };
 
+const getBloxUUID = async () => {
+  const madUuid = await getFromStorage(MAD_UUID);
+  if (madUuid?.length > 0 || madUuid !== undefined) {
+    return madUuid;
+  } else {
+    logger.error(
+      `{ status: ${ERROR_CODES.ERR0013.code}, message: ${ERROR_CODES.ERR0013.message} }`
+    );
+  }
+};
+
+const setBloxUUID = async (bloxUuid: string) => {
+  if (bloxUuid?.length) {
+    await saveToStorage(MAD_UUID, bloxUuid);
+  } else {
+    logger.error(
+      `{ status: ${ERROR_CODES.ERR0014.code}, message: ${ERROR_CODES.ERR0014.message} }`
+    );
+  }
+};
+
 export {
   initialize,
+  getBloxUUID,
+  setBloxUUID,
   setUser,
   resetUser,
   useEvents,

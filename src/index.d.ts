@@ -57,4 +57,6 @@ declare module 'index' {
 
   export const setUser: (options: { msdUserId: string }) => Promise<void>;
   export const resetUser: () => Promise<void>;
+  export const setBloxUUID: (bloxUuid: string) => Promise<void>;
+  export const getBloxUUID: () => Promise<void>;
 }
