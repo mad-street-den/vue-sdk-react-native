@@ -23,7 +23,7 @@ const EventScreen = () => {
   };
 
   const trackPageViewForHome = () => {
-    track('PageView', {
+    track('pageView', {
       page_type: "Home",
       page_name: "Home",
     },
@@ -92,11 +92,10 @@ const EventScreen = () => {
   };
 
   const trackAdd2cart = () => {
-    track('Add2cart', {
+    track('addToCart', {
       page_type: "pdp",
       page_name: "PDP",
-      product_id: "5789256482843",
-      clicked_product_id: "39946630725750"
+      source_prodid: "s18naqdp743b"
     },
     pageCorrelationId);
   };
